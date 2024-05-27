@@ -41,17 +41,15 @@ public class SendOutPokemonHandlerMixin {
             if (state.getValue(BlazeBurnerBlock.HEAT_LEVEL).equals(BlazeBurnerBlock.HeatLevel.NONE)) {
                 Pokemon pokemon = Cobblemon.INSTANCE.getStorage().getParty(player).get(packet.getSlot());
                 if (NBTHelper.isSlugma(pokemon)) {
-                    
                     BlockState newState = CreateSlugma.SLUGMA_BURNER_BLOCK.get().getStateForPlacement(player);
                     player.level().setBlock(result.getBlockPos(), newState, 3);
 
 
                     BlockEntity blockEntity = player.level().getBlockEntity(result.getBlockPos());
-                    System.out.println("BLOCKENTITY: " + blockEntity);
 
-                    SlugmaBurnerBlockEntity blazeBurnerBlockEntity = (SlugmaBurnerBlockEntity) player.level().getBlockEntity(result.getBlockPos()); //TODO block entity isn't instantiated.
+                    SlugmaBurnerBlockEntity blazeBurnerBlockEntity = (SlugmaBurnerBlockEntity) player.level().getBlockEntity(result.getBlockPos());
                     CompoundTag tag = new CompoundTag();
-                    NBTHelper.savePokemonWithBlockEntity(tag, pokemon);
+                    NBTHelper.savePokemon(tag, pokemon);
                     blazeBurnerBlockEntity.read(tag, false);
                     Cobblemon.INSTANCE.getStorage().getParty(player).remove(pokemon);
                     CobblemonUtils.Companion.spawnSendOutParticles(new Vec3(result.getBlockPos().getX(),result.getBlockPos().getY(), result.getBlockPos().getZ()), new Vec3(.5,.1,.5), pokemon);
