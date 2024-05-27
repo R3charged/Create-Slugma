@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "createslugma:block/slugma_burner/block"
+    }
+  }
+}

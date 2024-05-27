@@ -1,0 +1,21 @@
+{
+  "parent": "block/block",
+  "porting_lib:loader": "porting_lib:obj",
+  "flip_v": true,
+  "model": "createslugma:models/block/slugma_burner/model.obj",
+  "textures": {
+    "0": "createslugma:block/slugma_heater_brazier",
+    "1": "createslugma:block/slugma_idle",
+    "particle": "create:block/dark_metal_block"
+  },
+  "display": {
+    "gui": {
+      "rotation": [30, 135, 0],
+      "scale": [0.7, 0.7, 0.7]
+    },
+    "fixed": {
+      "rotation": [0, 0, 0],
+      "scale": [0.5, 0.5, 0.5]
+    }
+  }
+}
