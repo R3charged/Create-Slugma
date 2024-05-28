@@ -45,8 +45,6 @@ public class SendOutPokemonHandlerMixin {
                     player.level().setBlock(result.getBlockPos(), newState, 3);
 
 
-                    BlockEntity blockEntity = player.level().getBlockEntity(result.getBlockPos());
-
                     SlugmaBurnerBlockEntity blazeBurnerBlockEntity = (SlugmaBurnerBlockEntity) player.level().getBlockEntity(result.getBlockPos());
                     CompoundTag tag = new CompoundTag();
                     NBTHelper.savePokemon(tag, pokemon);

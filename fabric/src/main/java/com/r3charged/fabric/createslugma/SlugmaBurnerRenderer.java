@@ -2,15 +2,24 @@ package com.r3charged.fabric.createslugma;
 
 import javax.annotation.Nullable;
 
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel;
+import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import com.jozufozu.flywheel.core.PartialModel;
@@ -30,21 +39,35 @@ import com.simibubi.create.foundation.utility.AngleHelper;
 import com.simibubi.create.foundation.utility.AnimationTickHolder;
 import com.simibubi.create.foundation.utility.animation.LerpedFloat;
 
+import java.util.function.Function;
+
 public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBlockEntity> {
+
+    private final EntityRenderDispatcher entityRenderer;
+    private Entity slugma;
+
     public static final PartialModel ACTIVE = new PartialModel(new ResourceLocation(CreateSlugma.ID ,"block/slugma_burner/slugma/active"));
     public static final PartialModel IDLE = new PartialModel(new ResourceLocation(CreateSlugma.ID ,"block/slugma_burner/slugma/idle"));
     public static final PartialModel INERT = new PartialModel(new ResourceLocation(CreateSlugma.ID ,"block/slugma_burner/slugma/inert"));
 
     public static void registerPartialModels() {}
-    public SlugmaBurnerRenderer(BlockEntityRendererProvider.Context context) {}
+    public SlugmaBurnerRenderer(BlockEntityRendererProvider.Context context) {
+        entityRenderer = context.getEntityRenderer();
+    }
+    @Nullable
+    public Entity getOrCreateDisplayEntity(Level arg, RandomSource arg2, BlockPos arg3) {
+        if (this.slugma == null) {
+            this.slugma = EntityType.loadEntityRecursive(new CompoundTag(), arg, Function.identity());
+        }
 
+        return this.slugma;
+    }
     @Override
     protected void renderSafe(SlugmaBurnerBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource bufferSource,
                               int light, int overlay) {
         HeatLevel heatLevel = be.getHeatLevelFromBlock();
         if (heatLevel == HeatLevel.NONE)
             return;
-
         Level level = be.getLevel();
         BlockState blockState = be.getBlockState();
         float animation = be.getHeadAnimation().getValue(partialTicks) * .175f;
@@ -53,6 +76,13 @@ public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBl
         boolean drawGoggles = false;
         boolean drawHat = false;
         int hashCode = be.hashCode();
+        Entity entity = be.pokemon.getEntity();
+        if (entity != null) {
+            //PoseableEntityModel model =  PokemonModelRepository.INSTANCE.getPoser(species.resourceIdentifier, aspects);
+
+            this.entityRenderer.render(entity, 0.0, 0.0, 0.0, 0.0F, partialTicks, ms, bufferSource, light);
+        }
+
 
         renderShared(ms, null, bufferSource,
                 level, blockState, heatLevel, animation, horizontalAngle,
@@ -99,6 +129,8 @@ public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBl
 
         ms.pushPose();
 
+        //SEETHING FLAMES RENDER STEP---------------------
+
         if (canDrawFlame && blockAbove) {
             SpriteShiftEntry spriteShift =
                     heatLevel == HeatLevel.SEETHING ? AllSpriteShifts.SUPER_BURNER_FLAME : AllSpriteShifts.BURNER_FLAME;
@@ -130,6 +162,10 @@ public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBl
             draw(flameBuffer, horizontalAngle, ms, cutout);
         }
 
+        // -------------------------------
+
+
+        // RENDER SLUGMA -------------------------------------------
         PartialModel blazeModel;
         if (heatLevel.isAtLeast(HeatLevel.SEETHING)) {
             blazeModel = blockAbove ? AllPartialModels.BLAZE_SUPER_ACTIVE : AllPartialModels.BLAZE_SUPER;
@@ -151,7 +187,11 @@ public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBl
 
         blazeBuffer.translate(0, headY, 0);
         draw(blazeBuffer, horizontalAngle, ms, solid);
+        // RENDER SLUGMA -------------------------------------------
 
+
+
+        /*
         if (drawGoggles) {
             PartialModel gogglesModel = blazeModel == AllPartialModels.BLAZE_INERT
                     ? AllPartialModels.BLAZE_GOGGLES_SMALL : AllPartialModels.BLAZE_GOGGLES;
@@ -182,6 +222,7 @@ public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBl
                     .light(LightTexture.FULL_BRIGHT)
                     .renderInto(ms, solid);
         }
+         */
 		/*
 		if (heatLevel.isAtLeast(HeatLevel.FADING)) {
 			PartialModel rodsModel = heatLevel == HeatLevel.SEETHING ? AllPartialModels.BLAZE_BURNER_SUPER_RODS
