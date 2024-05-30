@@ -4,6 +4,7 @@ import javax.annotation.Nullable;
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel;
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository;
+import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 
 import net.minecraft.client.renderer.LightTexture;
@@ -76,13 +77,10 @@ public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBl
         boolean drawGoggles = false;
         boolean drawHat = false;
         int hashCode = be.hashCode();
-        Entity entity = be.pokemon.getEntity();
-        if (entity != null) {
-            //PoseableEntityModel model =  PokemonModelRepository.INSTANCE.getPoser(species.resourceIdentifier, aspects);
 
-            this.entityRenderer.render(entity, 0.0, 0.0, 0.0, 0.0F, partialTicks, ms, bufferSource, light);
-        }
 
+        Pokemon slugma = NBTHelper.getDefaultSlugma();
+        CobblemonUtils.Companion.drawPortraitPokemon(slugma.getSpecies(), slugma.getAspects(), ms, null, partialTicks);
 
         renderShared(ms, null, bufferSource,
                 level, blockState, heatLevel, animation, horizontalAngle,
@@ -165,6 +163,7 @@ public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBl
         // -------------------------------
 
 
+        /*
         // RENDER SLUGMA -------------------------------------------
         PartialModel blazeModel;
         if (heatLevel.isAtLeast(HeatLevel.SEETHING)) {
@@ -188,7 +187,7 @@ public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBl
         blazeBuffer.translate(0, headY, 0);
         draw(blazeBuffer, horizontalAngle, ms, solid);
         // RENDER SLUGMA -------------------------------------------
-
+        */
 
 
         /*
