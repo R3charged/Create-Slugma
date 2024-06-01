@@ -3,10 +3,14 @@ package com.r3charged.fabric.createslugma;
 import javax.annotation.Nullable;
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityModel;
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState;
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonFloatingState;
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository;
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -44,8 +48,6 @@ import java.util.function.Function;
 
 public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBlockEntity> {
 
-    private final EntityRenderDispatcher entityRenderer;
-    private Entity slugma;
 
     public static final PartialModel ACTIVE = new PartialModel(new ResourceLocation(CreateSlugma.ID ,"block/slugma_burner/slugma/active"));
     public static final PartialModel IDLE = new PartialModel(new ResourceLocation(CreateSlugma.ID ,"block/slugma_burner/slugma/idle"));
@@ -53,15 +55,6 @@ public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBl
 
     public static void registerPartialModels() {}
     public SlugmaBurnerRenderer(BlockEntityRendererProvider.Context context) {
-        entityRenderer = context.getEntityRenderer();
-    }
-    @Nullable
-    public Entity getOrCreateDisplayEntity(Level arg, RandomSource arg2, BlockPos arg3) {
-        if (this.slugma == null) {
-            this.slugma = EntityType.loadEntityRecursive(new CompoundTag(), arg, Function.identity());
-        }
-
-        return this.slugma;
     }
     @Override
     protected void renderSafe(SlugmaBurnerBlockEntity be, float partialTicks, PoseStack ms, MultiBufferSource bufferSource,
@@ -80,7 +73,7 @@ public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBl
 
 
         Pokemon slugma = NBTHelper.getDefaultSlugma();
-        CobblemonUtils.Companion.drawPortraitPokemon(slugma.getSpecies(), slugma.getAspects(), ms, null, partialTicks);
+        CobblemonUtils.Companion.drawPortraitPokemon(slugma.getSpecies(), slugma.getAspects(), ms, be.pokemonState, horizontalAngle,0, partialTicks);
 
         renderShared(ms, null, bufferSource,
                 level, blockState, heatLevel, animation, horizontalAngle,

@@ -7,6 +7,7 @@ import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
@@ -21,6 +22,7 @@ import com.mojang.math.Axis
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.LightTexture
 import net.minecraft.client.renderer.texture.OverlayTexture
+import net.minecraft.core.Direction
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.phys.Vec3
 import org.joml.Vector3f
@@ -85,10 +87,10 @@ class CobblemonUtils {
             aspects: Set<String>,
             matrixStack: PoseStack,
             state: PoseableEntityState<PokemonEntity>? = null,
+            headYaw: Float,
+            headPitch: Float,
             partialTicks: Float
         ) {
-            var scale = 13F
-            var reversed = false
             val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
             val texture = PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, state?.animationSeconds ?: 0F)
 
@@ -102,38 +104,39 @@ class CobblemonUtils {
             val renderType = model.renderType(texture)
 
             RenderSystem.applyModelViewMatrix()
-            val quaternion1 = Axis.YP.rotationDegrees(-32.0f * (if (reversed) -1.0f else 1.0f))
-            val quaternion2 = Axis.XP.rotationDegrees(5.0f)
 
             if (state == null) {
-                model.setupAnimStateless(setOf(PoseType.PORTRAIT, PoseType.PROFILE))
+                model.setupAnimStateless(setOf(PoseType.SLEEP, PoseType.SLEEP), headPitch = headPitch, headYaw = headYaw)
             } else {
                 val originalPose = state.currentPose
-                model.getPose(PoseType.SLEEP)?.let { state.setPose(it.poseName) }
+                model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
                 state.timeEnteredPose = 0F
                 state.updatePartialTicks(partialTicks)
-                model.setupAnimStateful(null, state, 0F, 0F, 0F, 0F, 0F)
+                model.setupAnimStateful(
+                    entity = null,
+                    state = state,
+                    headYaw = 90F,
+                    headPitch = 0F,
+                    limbSwing = 0F,
+                    limbSwingAmount = 0F,
+                    ageInTicks = state.animationSeconds * 20
+                )
                 originalPose?.let { state.setPose(it) }
             }
 
             matrixStack.pushPose()
-            matrixStack.translate(0.0, 0.0, 0.0)
-            matrixStack.scale(.75f, .75f, .75f)
-            matrixStack.translate(0.5, -0.5, 0.5)
-            //matrixStack.translate(model.portraitTranslation.x * if (reversed) -1F else 1F, model.portraitTranslation.y, model.portraitTranslation.z - 4)
-            //matrixStack.scale(model.portraitScale, model.portraitScale, 1 / model.portraitScale)
-            //matrixStack.mulPose(quaternion1)
-            //matrixStack.mulPose(quaternion2)
+            matrixStack.scale(.7f, .7f, .7f)
+            matrixStack.translate(.75, 1.5, .5)
+            matrixStack.mulPose(Axis.XP.rotationDegrees(180.0f));
+
 
             val light1 = Vector3f(0.2F, 1.0F, -1.0F)
             val light2 = Vector3f(0.1F, 0.0F, 8.0F)
             RenderSystem.setShaderLights(light1, light2)
-            quaternion1.conjugate()
 
             val immediate = Minecraft.getInstance().renderBuffers().bufferSource()
             val buffer = immediate.getBuffer(renderType)
             val packedLight = LightTexture.pack(11, 7)
-
             model.withLayerContext(immediate, state, PokemonModelRepository.getLayers(species.resourceIdentifier, aspects)) {
                 model.render(context, matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F)
                 immediate.endBatch()

@@ -1,6 +1,8 @@
 package com.r3charged.fabric.createslugma;
 
 
+import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
+import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlockEntity;
@@ -18,10 +20,14 @@ import net.minecraft.world.phys.Vec3;
 
 public class SlugmaBurnerBlockEntity extends BlazeBurnerBlockEntity {
 
+    public BlockPokemonState pokemonState;
+
     protected Pokemon pokemon;
     public SlugmaBurnerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
+        pokemonState = new BlockPokemonState(-1, 0);
     }
+
 
     @Override
     public void read(CompoundTag tag, boolean clientPacket) {
