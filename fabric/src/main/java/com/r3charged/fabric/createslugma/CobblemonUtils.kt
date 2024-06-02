@@ -2,12 +2,10 @@ package com.r3charged.fabric.createslugma
 
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
-import com.cobblemon.mod.common.client.gui.battle.BattleOverlay.Companion.PORTRAIT_DIAMETER
 import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.MatrixWrapper
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
-import com.cobblemon.mod.common.client.render.models.blockbench.fossil.FossilState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
@@ -20,12 +18,10 @@ import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.LightTexture
 import net.minecraft.client.renderer.texture.OverlayTexture
-import net.minecraft.core.Direction
 import net.minecraft.sounds.SoundSource
+import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
-import org.joml.Vector3f
 
 class CobblemonUtils {
     companion object {
@@ -89,8 +85,13 @@ class CobblemonUtils {
             state: PoseableEntityState<PokemonEntity>? = null,
             headYaw: Float,
             headPitch: Float,
-            partialTicks: Float
+            bodyYaw: Float,
+            partialTicks: Float,
+            packedLight: Int
         ) {
+
+            val k = Mth.wrapDegrees(bodyYaw - headYaw)
+
             val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
             val texture = PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, state?.animationSeconds ?: 0F)
 
@@ -115,8 +116,8 @@ class CobblemonUtils {
                 model.setupAnimStateful(
                     entity = null,
                     state = state,
-                    headYaw = 90F,
-                    headPitch = 0F,
+                    headYaw = k,
+                    headPitch = headPitch,
                     limbSwing = 0F,
                     limbSwingAmount = 0F,
                     ageInTicks = state.animationSeconds * 20
@@ -125,18 +126,16 @@ class CobblemonUtils {
             }
 
             matrixStack.pushPose()
+
             matrixStack.scale(.7f, .7f, .7f)
-            matrixStack.translate(.75, 1.5, .5)
+            matrixStack.translate(.75, 1.5, .75)
             matrixStack.mulPose(Axis.XP.rotationDegrees(180.0f));
+            matrixStack.mulPose(Axis.YP.rotationDegrees(180.0f - bodyYaw))
 
 
-            val light1 = Vector3f(0.2F, 1.0F, -1.0F)
-            val light2 = Vector3f(0.1F, 0.0F, 8.0F)
-            RenderSystem.setShaderLights(light1, light2)
 
             val immediate = Minecraft.getInstance().renderBuffers().bufferSource()
             val buffer = immediate.getBuffer(renderType)
-            val packedLight = LightTexture.pack(11, 7)
             model.withLayerContext(immediate, state, PokemonModelRepository.getLayers(species.resourceIdentifier, aspects)) {
                 model.render(context, matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F)
                 immediate.endBatch()

@@ -5,6 +5,8 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 
 class BlockPokemonState(startAge: Int = -1, startPartialTicks: Float = 0F) : PoseableEntityState<PokemonEntity>() {
+    // Could use FloatingPokemonState but updatePartialTicks seems to be called twice per frame somehow
+    // renderSafe probably being called twice somewhere
 
     var totalPartialTicks = 0F
     init {

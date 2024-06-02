@@ -2,17 +2,26 @@ package com.r3charged.fabric.createslugma;
 
 
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
+import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState;
+import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonFloatingState;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlockEntity;
 
+import com.simibubi.create.foundation.utility.AngleHelper;
 import com.simibubi.create.foundation.utility.VecHelper;
 import com.simibubi.create.foundation.utility.animation.LerpedFloat;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,14 +29,63 @@ import net.minecraft.world.phys.Vec3;
 
 public class SlugmaBurnerBlockEntity extends BlazeBurnerBlockEntity {
 
-    public BlockPokemonState pokemonState;
+    public PoseableEntityState<PokemonEntity> pokemonState;
+    public float oldXBodyRot;
+    public float xBodyRot;
+    protected LerpedFloat bodyAnimation;
+    protected LerpedFloat bodyAngle;
 
     protected Pokemon pokemon;
     public SlugmaBurnerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
-        pokemonState = new BlockPokemonState(-1, 0);
+        pokemonState = new BlockPokemonState();
+        bodyAnimation = LerpedFloat.linear();
+        bodyAngle = LerpedFloat.angular();
+        bodyAngle.startWithValue((AngleHelper.horizontalAngle(state.getOptionalValue(BlazeBurnerBlock.FACING)
+                .orElse(Direction.SOUTH)) + 180) % 360);
     }
 
+    @Override
+    public void tick() {
+        if (level.isClientSide()) {
+            tickBodyAnim();
+        }
+        super.tick();
+
+    }
+
+    private void tickBodyAnim() {
+        boolean active = getHeatLevelFromBlock().isAtLeast(BlazeBurnerBlock.HeatLevel.FADING) && isValidBlockAbove();
+
+        if (!active) {
+            float target = 0;
+            LocalPlayer player = Minecraft.getInstance().player;
+            if (player != null && !player.isInvisible()) {
+                double x;
+                double z;
+                if (isVirtual()) {
+                    x = -4;
+                    z = -10;
+                } else {
+                    x = player.getX();
+                    z = player.getZ();
+                }
+                double dx = x - (getBlockPos().getX() + 0.5);
+                double dz = z - (getBlockPos().getZ() + 0.5);
+                target = AngleHelper.deg(-Mth.atan2(dz, dx)) - 90;
+            }
+            target = bodyAngle.getValue() + AngleHelper.getShortestAngleDiff(bodyAngle.getValue(), target);
+            bodyAngle.chase(target, .125f, LerpedFloat.Chaser.exp(2.5));
+            bodyAngle.tickChaser();
+        } else {
+            bodyAngle.chase((AngleHelper.horizontalAngle(getBlockState().getOptionalValue(BlazeBurnerBlock.FACING)
+                    .orElse(Direction.SOUTH)) + 180) % 360, .0625f, LerpedFloat.Chaser.EXP);
+            bodyAngle.tickChaser();
+        }
+
+        bodyAnimation.chase(active ? 1 : 0, .125f, LerpedFloat.Chaser.exp(.125f));
+        bodyAnimation.tickChaser();
+    }
 
     @Override
     public void read(CompoundTag tag, boolean clientPacket) {

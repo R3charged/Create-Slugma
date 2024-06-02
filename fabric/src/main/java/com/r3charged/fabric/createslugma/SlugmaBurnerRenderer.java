@@ -73,7 +73,7 @@ public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBl
 
 
         Pokemon slugma = NBTHelper.getDefaultSlugma();
-        CobblemonUtils.Companion.drawPortraitPokemon(slugma.getSpecies(), slugma.getAspects(), ms, be.pokemonState, horizontalAngle,0, partialTicks);
+        CobblemonUtils.Companion.drawPortraitPokemon(slugma.getSpecies(), slugma.getAspects(), ms, be.pokemonState, be.getHeadAngle().getValue(partialTicks),0, be.bodyAngle.getValue(partialTicks), partialTicks, light);
 
         renderShared(ms, null, bufferSource,
                 level, blockState, heatLevel, animation, horizontalAngle,
