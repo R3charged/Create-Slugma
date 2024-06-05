@@ -1,0 +1,8 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "createslugma:block/slugma_burner/slugma/active",
+	"textures": {
+		"0": "createslugma:block/slugma_idle",
+		"particle": "create:block/blaze_active"
+	}
+}
