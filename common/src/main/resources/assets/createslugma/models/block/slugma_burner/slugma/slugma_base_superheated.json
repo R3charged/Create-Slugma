@@ -1,0 +1,7 @@
+{
+	"parent": "createslugma:block/slugma_burner/slugma/slugma_base",
+	"textures": {
+		"0": "createslugma:block/slugma_base_superheated",
+		"particle": "createslugma:block/slugma_base"
+	}
+}

@@ -1,6 +1,3 @@
 {
-	"parent": "create:block/blaze_burner/block",
-  "textures": {
-    "0": "createslugma:block/slugma_heater_brazier"
-  }
+	"parent": "create:block/blaze_burner/block"
 }

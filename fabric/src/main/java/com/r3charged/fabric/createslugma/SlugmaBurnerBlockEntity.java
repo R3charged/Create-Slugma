@@ -106,7 +106,7 @@ public class SlugmaBurnerBlockEntity extends BlazeBurnerBlockEntity {
 
 
     public Pokemon getPokemon() {
-        return pokemon;
+        return pokemon == null ? NBTHelper.getDefaultSlugma() : pokemon;
     }
     @Override
     public BlazeBurnerBlock.HeatLevel getHeatLevelFromBlock() {

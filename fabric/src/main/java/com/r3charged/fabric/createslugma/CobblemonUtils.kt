@@ -22,6 +22,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.sounds.SoundSource
 import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
+import org.joml.Vector3f
 
 class CobblemonUtils {
     companion object {
@@ -78,14 +79,18 @@ class CobblemonUtils {
             }
         }
 
-        fun drawPortraitPokemon(
+        fun drawPokemon(
             species: Species,
             aspects: Set<String>,
+            pose: String,
             matrixStack: PoseStack,
             state: PoseableEntityState<PokemonEntity>? = null,
             headYaw: Float,
             headPitch: Float,
             bodyYaw: Float,
+            xOffset: Float,
+            yOffset: Float,
+            zOffset: Float,
             partialTicks: Float,
             packedLight: Int
         ) {
@@ -110,7 +115,8 @@ class CobblemonUtils {
                 model.setupAnimStateless(setOf(PoseType.SLEEP, PoseType.SLEEP), headPitch = headPitch, headYaw = headYaw)
             } else {
                 val originalPose = state.currentPose
-                model.getPose(PoseType.PORTRAIT)?.let { state.setPose(it.poseName) }
+
+                model.getPose(pose)?.let { state.setPose(it.poseName) }
                 state.timeEnteredPose = 0F
                 state.updatePartialTicks(partialTicks)
                 model.setupAnimStateful(
@@ -131,6 +137,8 @@ class CobblemonUtils {
             matrixStack.translate(.75, 1.5, .75)
             matrixStack.mulPose(Axis.XP.rotationDegrees(180.0f));
             matrixStack.mulPose(Axis.YP.rotationDegrees(180.0f - bodyYaw))
+            matrixStack.translate(xOffset, yOffset, zOffset)
+
 
 
 
