@@ -38,7 +38,7 @@ public class CreateSlugma implements ModInitializer {
         SLUGMA_BURNER_BLOCK = REGISTRATE.block("slugma_burner", SlugmaBurnerBlock::new)
                 .initialProperties(SharedProperties::softMetal)
                 .properties(p -> p.mapColor(MapColor.COLOR_GRAY))
-                .properties(p -> p.lightLevel((d)->8))
+                .properties(p -> p.lightLevel(SlugmaBurnerBlock::getLight))
                 .transform(pickaxeOnly())
                 .addLayer(() -> RenderType::cutoutMipped)
                 .tag(AllTags.AllBlockTags.FAN_TRANSPARENT.tag, AllTags.AllBlockTags.PASSIVE_BOILER_HEATERS.tag)

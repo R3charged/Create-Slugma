@@ -1,9 +1,9 @@
-// 1.20.1	2024-05-27T17:35:41.4490326	Create Slugma/Registrate Provider for createslugma [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
-138acfc3c1c680ddeaae284cd8dcfec05f943dc5 data\create\tags\blocks\fan_transparent.json
-138acfc3c1c680ddeaae284cd8dcfec05f943dc5 data\minecraft\tags\blocks\mineable\pickaxe.json
-ad7bbe3a5d509f1fbe11413482c1a676f772566e assets\createslugma\lang\en_us.json
+// 1.20.1	2024-06-05T21:19:25.5773763	Create Slugma/Registrate Provider for createslugma [Recipes, Advancements, Loot Tables, Tags (blocks), Tags (items), Tags (fluids), Tags (entity_types), Blockstates, Item models, Lang (en_us/en_ud)]
 3bb63e334814930cdf3d137819217c5cfe5cdd38 data\createslugma\loot_tables\blocks\slugma_burner.json
 138acfc3c1c680ddeaae284cd8dcfec05f943dc5 data\create\tags\blocks\passive_boiler_heaters.json
 13de46fdd399f92c560688e30771c6ff11b6958c assets\createslugma\models\item\slugma_burner.json
 103fee2ee40c94ce0f7b2439813d16930a481b44 assets\createslugma\lang\en_ud.json
+138acfc3c1c680ddeaae284cd8dcfec05f943dc5 data\create\tags\blocks\fan_transparent.json
+ad7bbe3a5d509f1fbe11413482c1a676f772566e assets\createslugma\lang\en_us.json
 a91709359c3e5a68d0d34a7775c703cfe4051b68 assets\createslugma\blockstates\slugma_burner.json
+138acfc3c1c680ddeaae284cd8dcfec05f943dc5 data\minecraft\tags\blocks\mineable\pickaxe.json
