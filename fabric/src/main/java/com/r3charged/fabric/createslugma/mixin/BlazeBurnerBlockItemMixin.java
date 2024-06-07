@@ -4,6 +4,7 @@ import com.cobblemon.mod.common.Cobblemon;
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.r3charged.fabric.createslugma.AllGameRules;
 import com.r3charged.fabric.createslugma.CreateSlugma;
 import com.r3charged.fabric.createslugma.NBTHelper;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlockItem;
@@ -11,6 +12,7 @@ import com.simibubi.create.foundation.utility.VecHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -43,12 +45,20 @@ public class BlazeBurnerBlockItemMixin {
                 return;
             }
 
-            if (pokemon.getOwnerUUID() == null || !pokemon.getOwnerUUID().equals(player.getUUID()) || pokemon.isBattling()) {
-                spawnErrorEffects(player.level(), entity.position());
-                cir.setReturnValue(InteractionResult.PASS);
-                return;
-            }
+
             Level world = player.level();
+            if (world instanceof ServerLevel server) {
+                if (!server.getGameRules().getBoolean(AllGameRules.allowWildSlugmaCaging)) {
+                    if (pokemon.getOwnerUUID() == null || !pokemon.getOwnerUUID().equals(player.getUUID()) || pokemon.isBattling()) {
+                        spawnErrorEffects(player.level(), entity.position());
+                        cir.setReturnValue(InteractionResult.PASS);
+                        return;
+                    }
+                }
+            }
+
+
+
             pokemon.cry();
             ((BlazeBurnerBlockItemAccessor)this).invokeSpawnCaptureEffects(world, entity.position());
             if (world.isClientSide) {
