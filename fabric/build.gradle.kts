@@ -8,6 +8,13 @@ architectury {
     fabric()
 }
 
+sourceSets.main {
+    resources { // include generated resources in resources
+        srcDir("src/generated/resources")
+        exclude(".cache/**")
+        exclude("assets/create/**")
+    }
+}
 loom {
     enableTransitiveAccessWideners.set(true)
     silentMojangMappingsLicense()
