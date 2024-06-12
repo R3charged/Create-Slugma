@@ -32,7 +32,7 @@ class CobblemonUtils {
             val client = Minecraft.getInstance()
             val soundPos = sendOutPosition.add(sendOutOffset)
             if (client.soundManager.availableSounds.contains(CobblemonSounds.POKE_BALL_SEND_OUT.location)) {
-                client.level?.playSound(client.player, soundPos.x, soundPos.y, soundPos.z, CobblemonSounds.POKE_BALL_SEND_OUT, SoundSource.PLAYERS, 0.6f, 1f)
+                client.level?.playSound(client.player, soundPos.x, soundPos.y, soundPos.z, CobblemonSounds.POKE_BALL_SEND_OUT, SoundSource.BLOCKS, 0.6f, 1f)
             }
             sendOutPosition?.let {
                 val newPos = it.add(sendOutOffset)

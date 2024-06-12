@@ -41,7 +41,7 @@ loom {
 dependencies {
     minecraft("net.minecraft:minecraft:1.20.1")
     mappings(loom.officialMojangMappings())
-    modImplementation("net.fabricmc:fabric-loader:0.15.10")
+    modImplementation("net.fabricmc:fabric-loader:0.15.11")
 
     modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:0.91.0+1.20.1")
     modImplementation(fabricApi.module("fabric-command-api-v2", "0.91.0+1.20.1"))

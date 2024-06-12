@@ -39,15 +39,13 @@ import org.joml.Vector3f;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.r3charged.fabric.createslugma.AllPartialModels.*;
+
 public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBlockEntity> {
 
     public static final SpriteShiftEntry SUPER_SLUGMA_BURNER_FLAME = get("block/blaze_burner_flame", "block/slugma_burner_flame_superheated_scroll"),
             SHINY_SLUGMA_BURNER_FLAME = get("block/blaze_burner_flame", "block/slugma_burner_flame_superheated_shiny_scroll");
 
-    public static final PartialModel BASE = new PartialModel(new ResourceLocation(CreateSlugma.ID ,"block/slugma_burner/slugma/slugma_base"));
-    public static final PartialModel BASE_SHINY = new PartialModel(new ResourceLocation(CreateSlugma.ID ,"block/slugma_burner/slugma/slugma_base_shiny"));
-    public static final PartialModel BASE_SUPERHEATED = new PartialModel(new ResourceLocation(CreateSlugma.ID ,"block/slugma_burner/slugma/slugma_base_superheated"));
-    public static final PartialModel BASE_SUPERHEATED_SHINY = new PartialModel(new ResourceLocation(CreateSlugma.ID ,"block/slugma_burner/slugma/slugma_base_superheated_shiny"));
 
     public static void registerPartialModels() {}
     public SlugmaBurnerRenderer(BlockEntityRendererProvider.Context context) {
