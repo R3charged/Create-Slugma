@@ -66,27 +66,24 @@ public class BlazeBurnerBlockItemMixin {
                 return;
             }
 
-            giveSlugmaBurnerItemTo(player, heldItem, hand, pokemon.getPokemon());
-
-            entity.discard();
-            PlayerPartyStore party = Cobblemon.INSTANCE.getStorage().getParty((ServerPlayer) player);
-            party.remove(pokemon.getPokemon());
+            ItemStack filled = CreateSlugma.SLUGMA_BURNER_BLOCK.asStack();
+            NBTHelper.popPokemonEntityToItemStack(filled, pokemon);
+            giveSlugmaBurnerItemTo(player, heldItem, hand, filled);
 
             cir.setReturnValue(InteractionResult.FAIL);
             return;
         }
     }
 
-    protected void giveSlugmaBurnerItemTo(Player player, ItemStack heldItem, InteractionHand hand, Pokemon pokemon) {
-        ItemStack filled = NBTHelper.getSlugmaBurnerItem(pokemon);
+    protected void giveSlugmaBurnerItemTo(Player player, ItemStack heldItem, InteractionHand hand, ItemStack burner) {
         if (!player.isCreative())
             heldItem.shrink(1);
         if (heldItem.isEmpty()) {
-            player.setItemInHand(hand, filled);
+            player.setItemInHand(hand, burner);
             return;
         }
         player.getInventory()
-                .placeItemBackInInventory(filled);
+                .placeItemBackInInventory(burner);
     }
 
     private void spawnErrorEffects(Level world, Vec3 vec) {
