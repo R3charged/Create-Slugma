@@ -32,6 +32,8 @@ public class CreateSlugma implements ModInitializer {
     @Override
     public void onInitialize() {
         LOGGER.info("Create addon mod [{}] is loading alongside Create [{}]!", "CobblemonSlugma", Create.VERSION);
+
+        AllGameRules.init();
         //CommandRegistrationCallback.EVENT.register(ExampleCommandRegistry::registerCommands);
 
         SLUGMA_BURNER_BLOCK = REGISTRATE.block("slugma_burner", SlugmaBurnerBlock::new)
