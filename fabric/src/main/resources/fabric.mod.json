@@ -13,6 +13,9 @@
     "main": [
       "com.r3charged.fabric.createslugma.CreateSlugma"
     ],
+    "client": [
+      "com.r3charged.fabric.createslugma.CreateSlugmaClient"
+    ],
     "fabric-datagen": [
       "com.r3charged.fabric.createslugma.CreateSlugmaDataFabric"
     ]

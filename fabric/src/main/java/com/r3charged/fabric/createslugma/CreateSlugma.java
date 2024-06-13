@@ -34,7 +34,6 @@ public class CreateSlugma implements ModInitializer {
         LOGGER.info("Create addon mod [{}] is loading alongside Create [{}]!", "CobblemonSlugma", Create.VERSION);
         //CommandRegistrationCallback.EVENT.register(ExampleCommandRegistry::registerCommands);
 
-        AllPartialModels.init();
         SLUGMA_BURNER_BLOCK = REGISTRATE.block("slugma_burner", SlugmaBurnerBlock::new)
                 .initialProperties(SharedProperties::softMetal)
                 .properties(p -> p.mapColor(MapColor.COLOR_GRAY))
