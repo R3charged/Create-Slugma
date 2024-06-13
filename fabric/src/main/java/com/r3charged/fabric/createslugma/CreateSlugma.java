@@ -1,6 +1,5 @@
 package com.r3charged.fabric.createslugma;
 
-import com.r3charged.common.createslugma.ExampleCommandRegistry;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.Create;
 import com.simibubi.create.content.processing.burner.BlazeBurnerInteractionBehaviour;
@@ -33,9 +32,10 @@ public class CreateSlugma implements ModInitializer {
     @Override
     public void onInitialize() {
         LOGGER.info("Create addon mod [{}] is loading alongside Create [{}]!", "CobblemonSlugma", Create.VERSION);
-        CommandRegistrationCallback.EVENT.register(ExampleCommandRegistry::registerCommands);
+
         AllGameRules.init();
-        SlugmaBurnerRenderer.registerPartialModels();
+        //CommandRegistrationCallback.EVENT.register(ExampleCommandRegistry::registerCommands);
+
         SLUGMA_BURNER_BLOCK = REGISTRATE.block("slugma_burner", SlugmaBurnerBlock::new)
                 .initialProperties(SharedProperties::softMetal)
                 .properties(p -> p.mapColor(MapColor.COLOR_GRAY))
