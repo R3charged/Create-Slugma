@@ -1,4 +1,4 @@
-rootProject.name = "Multi-Platform"
+rootProject.name = "CreateSlugma"
 
 pluginManagement {
     repositories {
@@ -9,8 +9,4 @@ pluginManagement {
     }
 }
 
-listOf(
-    "common",
-    "forge",
-    "fabric"
-).forEach { include(it)}
+include("common", "fabric", "forge")

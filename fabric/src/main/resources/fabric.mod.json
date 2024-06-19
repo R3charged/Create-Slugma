@@ -1,13 +1,12 @@
 {
   "schemaVersion": 1,
-  "id": "createslugma",
-  "version": "1.0.0",
-  "name": "Create Slugma",
-  "description": "Adds a Slugma Burner to the game.",
-  "authors": [
-    "R3charged"
-  ],
-  "license": "MPL-2.0",
+  "name": "${mod_name}",
+  "id": "${mod_id}",
+  "version":  "${mod_version}",
+  "description": "${mod_description}",
+  "authors": ["${author}"],
+  "contact": {"repo": "${repository}"},
+  "license": "${license}",
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -21,13 +20,13 @@
     ]
   },
   "mixins": [
-  "cobblemonslugma-fabric.mixins.json"
+    "cobblemonslugma-fabric.mixins.json"
   ],
   "depends": {
     "java": ">=17",
     "minecraft": ">=1.20.1",
-    "fabricloader": ">=0.15.11",
+    "fabricloader": "*",
     "fabric": "*",
-    "cobblemon": ">=1.5.2"
+    "cobblemon": ">=1.5.0"
   }
 }
