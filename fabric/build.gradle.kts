@@ -1,6 +1,7 @@
 plugins {
     id("dev.architectury.loom")
     id("architectury-plugin")
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 architectury {
@@ -8,13 +9,18 @@ architectury {
     fabric()
 }
 
+configurations {
+    create("common")
+    create("shadowCommon")
+    compileClasspath.get().extendsFrom(configurations["common"])
+    runtimeClasspath.get().extendsFrom(configurations["common"])
+    getByName("developmentFabric").extendsFrom(configurations["common"])
+}
+
 loom {
     enableTransitiveAccessWideners.set(true)
     silentMojangMappingsLicense()
 
-    mixin {
-        defaultRefmapName.set("mixins.${project.name}.refmap.json")
-    }
     val common = project(":common")
 
     runs {
@@ -31,23 +37,60 @@ loom {
         }
     }
 }
+
 dependencies {
-    minecraft("net.minecraft:minecraft:1.20.1")
+    minecraft("net.minecraft:minecraft:${property("minecraft_version")}")
     mappings(loom.officialMojangMappings())
-    modImplementation("net.fabricmc:fabric-loader:0.15.10")
 
-    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:0.91.0+1.20.1")
-    modImplementation(fabricApi.module("fabric-command-api-v2", "0.91.0+1.20.1"))
-
-    implementation(project(":common", configuration = "namedElements"))
-    "developmentFabric"(project(":common", configuration = "namedElements"))
-
-    modImplementation("com.cobblemon:fabric:1.5.2+1.20.1")
-    modImplementation("com.simibubi.create:create-fabric-1.20.1:0.5.1-f-build.1335+mc1.20.1")
+    modImplementation("com.cobblemon:fabric:${property("cobblemon_version")}")
+    modImplementation("com.simibubi.create:create-fabric-${property("minecraft_version")}:${property("create_fabric_version")}")
     modRuntimeOnly("com.terraformersmc:modmenu:7.2.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+    modImplementation("net.fabricmc:fabric-loader:${property("fabric_loader_version")}")
+    modApi("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")
+
+
+    "common"(project(":common", "namedElements")) { isTransitive = false }
+    "shadowCommon"(project(":common", "transformProductionFabric")) { isTransitive = false }
 }
-tasks.getByName<Test>("test") {
-    useJUnitPlatform()
+
+tasks.processResources {
+    expand(mapOf(
+        "mod_name" to project.property("mod_name"),
+        "mod_id" to project.property("mod_id"),
+        "mod_version" to project.property("mod_version"),
+        "mod_description" to project.property("mod_description"),
+        "author" to project.property("author"),
+        "repository" to project.property("repository"),
+        "license" to project.property("license"),
+        "mod_icon" to project.property("mod_icon"),
+        "environment" to project.property("environment"),
+        "supported_minecraft_versions" to project.property("supported_minecraft_versions")
+    ))
+}
+
+
+tasks {
+    base.archivesName.set("${project.property("archives_base_name")}-fabric")
+    processResources {
+        inputs.property("version", project.version)
+
+        filesMatching("META-INF/mods.toml") {
+            expand(mapOf("version" to project.version))
+        }
+    }
+
+    shadowJar {
+        exclude("generations/gg/generations/core/generationscore/fabric/datagen/**")
+        exclude("data/forge/**")
+        configurations = listOf(project.configurations.getByName("shadowCommon"))
+        archiveClassifier.set("dev-shadow")
+    }
+
+    remapJar {
+        injectAccessWidener.set(true)
+        inputFile.set(shadowJar.get().archiveFile)
+        dependsOn(shadowJar)
+    }
+
+    jar.get().archiveClassifier.set("dev")
 }

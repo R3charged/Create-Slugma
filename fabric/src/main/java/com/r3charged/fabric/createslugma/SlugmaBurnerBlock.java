@@ -78,5 +78,7 @@ public class SlugmaBurnerBlock extends BlazeBurnerBlock {
         builder.withPool(poolBuilder.setRolls(ConstantValue.exactly(1)));
         return builder;
     }
+
+
 }
 

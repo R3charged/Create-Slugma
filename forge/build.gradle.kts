@@ -1,6 +1,7 @@
 plugins {
     id("dev.architectury.loom")
     id("architectury-plugin")
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 architectury {
@@ -8,52 +9,79 @@ architectury {
     forge()
 }
 
+configurations {
+    create("common")
+    create("shadowCommon")
+    compileClasspath.get().extendsFrom(configurations["common"])
+    runtimeClasspath.get().extendsFrom(configurations["common"])
+    getByName("developmentForge").extendsFrom(configurations["common"])
+}
+
 loom {
+
     enableTransitiveAccessWideners.set(true)
     silentMojangMappingsLicense()
 
-    mixin {
-        defaultRefmapName.set("mixins.${project.name}.refmap.json")
-    }
-}
-
-repositories {
-    mavenCentral()
-    maven("https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/")
-    maven("https://maven.impactdev.net/repository/development/")
-    maven("https://hub.spigotmc.org/nexus/content/groups/public/")
-    maven("https://thedarkcolour.github.io/KotlinForForge/")
-    // mavens for Forge-exclusives
-    maven (url = "https://maven.theillusivec4.top/" ) // Curios
-    maven (url = "https://maven.tterrag.com/") {
-        content {
-            includeGroup("com.tterrag.registrate")
-            includeGroup("com.simibubi.create")
-        }
-    }
 
 }
 
 dependencies {
-    minecraft("net.minecraft:minecraft:1.20.1")
-    mappings(loom.officialMojangMappings())
-    forge("net.minecraftforge:forge:1.20.1-47.2.0")
+    minecraft("net.minecraft:minecraft:${property("minecraft_version")}")
+    mappings("net.fabricmc:yarn:${property("yarn_mappings")}:v2")
 
-    implementation(project(":common", configuration = "namedElements"))
-    "developmentForge"(project(":common", configuration = "namedElements")) {
-        isTransitive = false
-    }
-    modImplementation("com.simibubi.create:create-${project.property("minecraft_version")}:${project.property("create_forge_version")}:slim") { isTransitive = false }
-    modImplementation("com.tterrag.registrate:Registrate:${project.property("registrate_forge_version")}")
-    modImplementation("com.jozufozu.flywheel:flywheel-forge-${project.property("minecraft_version")}:${project.property("flywheel_forge_version")}")
+    // Forge
+    forge("net.minecraftforge:forge:${property("forge_version")}")
 
-    modImplementation("com.cobblemon:forge:1.4.0+1.20.1-SNAPSHOT")
-    implementation("thedarkcolour:kotlinforforge:4.5.0")
+    "common"(project(":common", "namedElements")) { isTransitive = false }
+    "shadowCommon"(project(":common", "transformProductionForge")) { isTransitive = false }
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.0")
+    modImplementation("com.cobblemon:forge:${property("cobblemon_version")}")
+    implementation("thedarkcolour:kotlinforforge:4.4.0")
+
+
+
 }
 
-tasks.getByName<Test>("test") {
-    useJUnitPlatform()
+tasks.processResources {
+    filesMatching("META-INF/mods.toml") {
+        expand(
+            mapOf(
+                "author" to project.property("author"),
+                "mod_name" to project.property("mod_name"),
+                "mod_id" to project.property("mod_id"),
+                "version" to project.property("mod_version"),
+                "mod_description" to project.property("mod_description"),
+                "repository" to project.property("repository"),
+                "license" to project.property("license"),
+                "mod_icon" to project.property("mod_icon"),
+                "environment" to project.property("environment"),
+                "supported_minecraft_versions" to project.property("supported_minecraft_versions")
+            )
+        )
+    }
+}
+
+tasks {
+    base.archivesName.set("${project.property("archives_base_name")}-forge")
+    processResources {
+        inputs.property("version", project.version)
+
+        filesMatching("META-INF/mods.toml") {
+            expand(mapOf("version" to project.version))
+        }
+    }
+
+    shadowJar {
+        exclude("fabric.mod.json")
+        exclude("generations/gg/generations/core/generationscore/forge/datagen/**")
+        configurations = listOf(project.configurations.getByName("shadowCommon"))
+        archiveClassifier.set("dev-shadow")
+    }
+
+    remapJar {
+        inputFile.set(shadowJar.get().archiveFile)
+        dependsOn(shadowJar)
+    }
+
+    jar.get().archiveClassifier.set("dev")
 }
