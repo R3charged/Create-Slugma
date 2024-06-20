@@ -39,12 +39,13 @@ import org.joml.Vector3f;
 import java.util.HashSet;
 import java.util.Set;
 
+import static com.r3charged.common.createslugma.AllSpriteShifts.SHINY_SLUGMA_BURNER_FLAME;
+import static com.r3charged.common.createslugma.AllSpriteShifts.SUPER_SLUGMA_BURNER_FLAME;
 import static com.r3charged.fabric.createslugma.AllPartialModels.*;
 
 public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBlockEntity> {
 
-    public static final SpriteShiftEntry SUPER_SLUGMA_BURNER_FLAME = get("block/blaze_burner_flame", "block/slugma_burner_flame_superheated_scroll"),
-            SHINY_SLUGMA_BURNER_FLAME = get("block/blaze_burner_flame", "block/slugma_burner_flame_superheated_shiny_scroll");
+
 
 
     public static void registerPartialModels() {}
@@ -201,10 +202,4 @@ public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBl
                 .renderInto(ms, vc);
     }
 
-    private static SpriteShiftEntry get(String originalLocation, String targetLocation) {
-        return SpriteShifter.get(Create.asResource(originalLocation), asResource(targetLocation));
-    }
-    public static ResourceLocation asResource(String path) {
-        return new ResourceLocation(CreateSlugma.ID, path);
-    }
 }
