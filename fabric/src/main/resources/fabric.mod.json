@@ -10,7 +10,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.r3charged.fabric.createslugma.CreateSlugma"
+      "com.r3charged.fabric.createslugma.CreateSlugmaFabric"
     ],
     "client": [
       "com.r3charged.fabric.createslugma.CreateSlugmaClient"
@@ -20,7 +20,7 @@
     ]
   },
   "mixins": [
-    "cobblemonslugma-fabric.mixins.json"
+    "createslugma-common.mixins.json"
   ],
   "depends": {
     "java": ">=17",

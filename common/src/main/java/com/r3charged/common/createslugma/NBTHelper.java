@@ -1,4 +1,4 @@
-package com.r3charged.fabric.createslugma;
+package com.r3charged.common.createslugma;
 
 import com.cobblemon.mod.common.Cobblemon;
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
@@ -8,7 +8,6 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import static com.cobblemon.mod.common.api.scheduling.SchedulingFunctionsKt.afterOnClient;
@@ -32,7 +31,7 @@ public class NBTHelper {
 
 
     public static ItemStack getSlugmaBurnerItem(Pokemon pokemon) {
-        ItemStack filled = CreateSlugma.SLUGMA_BURNER_BLOCK.asStack();
+        ItemStack filled = AllBlocks.SLUGMA_BURNER_BLOCK.asStack();
         savePokemonWithBlockEntity(filled.getOrCreateTag(), pokemon);
 
         return filled;

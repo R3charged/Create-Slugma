@@ -1,4 +1,4 @@
-package com.r3charged.fabric.createslugma.mixin;
+package com.r3charged.common.createslugma.mixin;
 
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlockItem;
 import net.minecraft.world.level.Level;

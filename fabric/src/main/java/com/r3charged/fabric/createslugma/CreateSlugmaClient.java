@@ -1,5 +1,6 @@
 package com.r3charged.fabric.createslugma;
 
+import com.r3charged.common.createslugma.AllPartialModels;
 import com.r3charged.common.createslugma.AllSpriteShifts;
 import net.fabricmc.api.ClientModInitializer;
 

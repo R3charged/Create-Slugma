@@ -1,9 +1,7 @@
-package com.r3charged.fabric.createslugma;
+package com.r3charged.common.createslugma;
 
 
-import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState;
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonFloatingState;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.simibubi.create.AllTags;
@@ -15,8 +13,6 @@ import com.simibubi.create.foundation.utility.VecHelper;
 import com.simibubi.create.foundation.utility.animation.LerpedFloat;
 
 import io.github.fabricators_of_create.porting_lib.transfer.callbacks.TransactionCallback;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.client.Minecraft;

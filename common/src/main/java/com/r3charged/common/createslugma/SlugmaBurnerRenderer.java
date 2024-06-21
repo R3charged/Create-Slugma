@@ -1,4 +1,4 @@
-package com.r3charged.fabric.createslugma;
+package com.r3charged.common.createslugma;
 
 import javax.annotation.Nullable;
 
@@ -6,16 +6,13 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.simibubi.create.Create;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 
-import com.simibubi.create.foundation.block.render.SpriteShifter;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import com.jozufozu.flywheel.core.PartialModel;
@@ -41,7 +38,7 @@ import java.util.Set;
 
 import static com.r3charged.common.createslugma.AllSpriteShifts.SHINY_SLUGMA_BURNER_FLAME;
 import static com.r3charged.common.createslugma.AllSpriteShifts.SUPER_SLUGMA_BURNER_FLAME;
-import static com.r3charged.fabric.createslugma.AllPartialModels.*;
+import static com.r3charged.common.createslugma.AllPartialModels.*;
 
 public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBlockEntity> {
 

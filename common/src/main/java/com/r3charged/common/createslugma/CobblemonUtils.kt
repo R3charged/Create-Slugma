@@ -1,4 +1,4 @@
-package com.r3charged.fabric.createslugma
+package com.r3charged.common.createslugma
 
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
@@ -22,7 +22,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture
 import net.minecraft.sounds.SoundSource
 import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
-import org.joml.Vector3f
 
 class CobblemonUtils {
     companion object {

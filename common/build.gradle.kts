@@ -11,12 +11,12 @@ architectury {
 dependencies {
     minecraft("com.mojang:minecraft:${property("minecraft_version")}")
     mappings(loom.officialMojangMappings())
-
     modCompileOnly("com.cobblemon:mod:${property("cobblemon_version")}")
     modCompileOnly("com.simibubi.create:create-fabric-${property("minecraft_version")}:${property("create_fabric_version")}")
     // all fabric dependencies:
     modCompileOnly("net.fabricmc:fabric-loader:${property("fabric_loader_version")}")
     modCompileOnly("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")
+    //modCompileOnly("com.bedrockk:molang-runtime:1.1.11")
 }
 
 

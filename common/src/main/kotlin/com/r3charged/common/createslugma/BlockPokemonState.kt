@@ -1,4 +1,4 @@
-package com.r3charged.fabric.createslugma
+package com.r3charged.common.createslugma
 
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState

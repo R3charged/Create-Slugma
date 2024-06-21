@@ -18,6 +18,6 @@ public class AllSpriteShifts {
         return SpriteShifter.get(Create.asResource(originalLocation), asResource(targetLocation));
     }
     public static ResourceLocation asResource(String path) {
-        return new ResourceLocation("createslugma", path);
-    } //TODO use const
+        return new ResourceLocation(CreateSlugmaImplementation.MOD_ID, path);
+    }
 }
