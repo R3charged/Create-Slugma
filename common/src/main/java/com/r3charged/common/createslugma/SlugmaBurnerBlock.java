@@ -54,11 +54,11 @@ public class SlugmaBurnerBlock extends BlazeBurnerBlock {
 
     public static LootTable.@NotNull Builder buildLootTable() {
         LootItemCondition.Builder survivesExplosion = ExplosionCondition.survivesExplosion();
-        SlugmaBurnerBlock block = CreateSlugmaFabric.SLUGMA_BURNER_BLOCK.get();
+        SlugmaBurnerBlock block = AllBlocks.SLUGMA_BURNER_BLOCK.get();
         LootTable.Builder builder = LootTable.lootTable();
         LootPool.Builder poolBuilder = LootPool.lootPool();
         for (HeatLevel level : HeatLevel.values()) {
-            ItemLike drop = level == HeatLevel.NONE ? AllItems.EMPTY_BLAZE_BURNER.get() : CreateSlugmaFabric.SLUGMA_BURNER_BLOCK.get();
+            ItemLike drop = level == HeatLevel.NONE ? AllItems.EMPTY_BLAZE_BURNER.get() : AllBlocks.SLUGMA_BURNER_BLOCK.get();
             poolBuilder.add(LootItem.lootTableItem(drop)
                     .when(survivesExplosion)
                     .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)

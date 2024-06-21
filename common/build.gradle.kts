@@ -16,7 +16,7 @@ dependencies {
     // all fabric dependencies:
     modCompileOnly("net.fabricmc:fabric-loader:${property("fabric_loader_version")}")
     modCompileOnly("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")
-    //modCompileOnly("com.bedrockk:molang-runtime:1.1.11")
+    implementation("com.bedrockk:molang:1.1.11")
 }
 
 

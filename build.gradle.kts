@@ -34,6 +34,10 @@ allprojects {
                 includeGroup("com.jozufozu.flywheel")
             }
         }
+        maven {
+            url = uri("${rootProject.projectDir}/deps/local/")
+        }
+
     }
 }
 
