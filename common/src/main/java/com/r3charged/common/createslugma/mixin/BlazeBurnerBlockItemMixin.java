@@ -3,7 +3,7 @@ package com.r3charged.common.createslugma.mixin;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.r3charged.common.createslugma.AllBlocks;
 import com.r3charged.common.createslugma.AllGameRules;
-import com.r3charged.common.createslugma.NBTHelper;
+import com.r3charged.common.createslugma.util.NBTHelper;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlockItem;
 import com.simibubi.create.foundation.utility.VecHelper;
 import net.minecraft.core.BlockPos;

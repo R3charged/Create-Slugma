@@ -19,6 +19,5 @@ public class CreateSlugmaDataFabric implements DataGeneratorEntrypoint {
         );
         FabricDataGenerator.Pack pack = gen.createPack();
         CreateSlugmaFabric.REGISTRATE.setupDatagen(pack, helper);
-        //Railways.gatherData(pack);
     }
 }

@@ -1,4 +1,4 @@
-package com.r3charged.common.createslugma;
+package com.r3charged.common.createslugma.block.entity;
 
 import javax.annotation.Nullable;
 
@@ -6,6 +6,8 @@ import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntitySt
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.r3charged.common.createslugma.CobblemonUtils;
+import com.r3charged.common.createslugma.util.NBTHelper;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 
 import net.minecraft.client.renderer.LightTexture;
@@ -59,7 +61,6 @@ public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBl
         float animation = be.getHeadAnimation().getValue(partialTicks) * .175f;
         float horizontalAngle = AngleHelper.rad(be.getHeadAngle().getValue(partialTicks));
         boolean canDrawFlame = heatLevel.isAtLeast(HeatLevel.FADING);
-        boolean drawGoggles = false;
         int hashCode = be.hashCode();
 
 

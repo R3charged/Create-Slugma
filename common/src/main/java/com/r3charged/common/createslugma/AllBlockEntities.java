@@ -1,5 +1,7 @@
 package com.r3charged.common.createslugma;
 
+import com.r3charged.common.createslugma.block.entity.SlugmaBurnerBlockEntity;
+import com.r3charged.common.createslugma.block.entity.SlugmaBurnerRenderer;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 
 import static com.r3charged.common.createslugma.CreateSlugmaImplementation.REGISTRATE;

@@ -1,5 +1,7 @@
-package com.r3charged.common.createslugma;
+package com.r3charged.common.createslugma.block;
 
+import com.r3charged.common.createslugma.AllBlockEntities;
+import com.r3charged.common.createslugma.AllBlocks;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 

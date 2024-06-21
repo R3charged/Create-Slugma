@@ -1,9 +1,11 @@
-package com.r3charged.common.createslugma;
+package com.r3charged.common.createslugma.block.entity;
 
 
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.r3charged.common.createslugma.BlockPokemonState;
+import com.r3charged.common.createslugma.util.NBTHelper;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlockEntity;

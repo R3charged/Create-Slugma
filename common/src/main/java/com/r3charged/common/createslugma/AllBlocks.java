@@ -1,5 +1,6 @@
 package com.r3charged.common.createslugma;
 
+import com.r3charged.common.createslugma.block.SlugmaBurnerBlock;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.content.processing.burner.BlazeBurnerInteractionBehaviour;
 import com.simibubi.create.content.processing.burner.BlazeBurnerMovementBehaviour;
@@ -33,7 +34,7 @@ public class AllBlocks {
             .build()
             .register();
 
-    public void register() {
+    public static void register() {
 
     }
 }
