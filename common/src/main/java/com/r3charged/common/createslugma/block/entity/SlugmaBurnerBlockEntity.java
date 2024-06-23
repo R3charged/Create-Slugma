@@ -40,9 +40,10 @@ public class SlugmaBurnerBlockEntity extends BlazeBurnerBlockEntity {
     protected LerpedFloat bodyAnimation;
     protected LerpedFloat bodyAngle;
 
-    protected Pokemon pokemon;
+    private Pokemon pokemon;
     public SlugmaBurnerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
+        pokemon = NBTHelper.getDefaultSlugma();
         pokemonState = new BlockPokemonState();
         bodyAnimation = LerpedFloat.linear();
         bodyAngle = LerpedFloat.angular();
@@ -96,8 +97,7 @@ public class SlugmaBurnerBlockEntity extends BlazeBurnerBlockEntity {
     public void read(CompoundTag tag, boolean clientPacket) {
         try {
             pokemon = Pokemon.Companion.loadFromNBT(tag.getCompound("pokemon"));
-        } catch (NullPointerException e) {
-            pokemon = NBTHelper.getDefaultSlugma();
+        } catch (NullPointerException ignored) {
         }
         super.read(tag, clientPacket);
     }
@@ -111,7 +111,7 @@ public class SlugmaBurnerBlockEntity extends BlazeBurnerBlockEntity {
 
 
     public Pokemon getPokemon() {
-        return pokemon == null ? NBTHelper.getDefaultSlugma() : pokemon;
+        return pokemon;
     }
 
 
