@@ -1,11 +1,8 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.r3charged.fabric.createslugma.mixin",
+  "package": "com.r3charged.common.createslugma.mixin",
   "mixins": [
-    "com.r3charged.common.createslugma.mixin.BlazeBurnerBlockItemAccessor",
-    "com.r3charged.common.createslugma.mixin.BlazeBurnerBlockItemMixin",
-    "com.r3charged.common.createslugma.mixin.SendOutPokemonHandlerMixin"
   ],
   "client": [],
   "server": []

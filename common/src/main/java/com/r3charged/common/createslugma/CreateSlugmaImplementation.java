@@ -19,6 +19,7 @@ public abstract class CreateSlugmaImplementation {
         AllBlocks.register();
         AllBlockEntities.register();
         AllGameRules.init();
+
     }
 
 }

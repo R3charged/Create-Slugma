@@ -31,6 +31,8 @@ allprojects {
         maven (url = "https://jitpack.io/") // Mixin Extras, Fabric ASM
         maven(url = "https://maven.tterrag.com/") {
             content {
+                includeGroup("com.simibubi.create")
+                includeGroup("com.tterrag.registrate")
                 includeGroup("com.jozufozu.flywheel")
             }
         }

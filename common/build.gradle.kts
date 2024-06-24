@@ -8,6 +8,10 @@ architectury {
     platformSetupLoomIde()
 }
 
+loom {
+    accessWidenerPath.set(project.file("src/main/resources/createslugma.accesswidener"))
+}
+
 dependencies {
     minecraft("com.mojang:minecraft:${property("minecraft_version")}")
     mappings(loom.officialMojangMappings())
