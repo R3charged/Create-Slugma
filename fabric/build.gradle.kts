@@ -19,6 +19,7 @@ configurations {
 
 loom {
     enableTransitiveAccessWideners.set(true)
+    accessWidenerPath.set(project(":common").file("src/main/resources/createslugma.accesswidener"))
     silentMojangMappingsLicense()
 
     val common = project(":common")

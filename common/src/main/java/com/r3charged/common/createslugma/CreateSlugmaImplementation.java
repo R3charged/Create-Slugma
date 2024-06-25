@@ -13,7 +13,6 @@ public abstract class CreateSlugmaImplementation {
 
     public static final Logger LOGGER = LogManager.getLogger("CreateSlugma");
 
-    public abstract GameRules.Key registerGameRule(String name, GameRules.Category category, GameRules.Type type);
 
     public void initialize() {
         AllBlocks.register();

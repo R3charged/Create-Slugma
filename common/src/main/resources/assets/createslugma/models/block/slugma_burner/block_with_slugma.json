@@ -1,6 +1,7 @@
 {
   "parent": "block/block",
   "porting_lib:loader": "porting_lib:obj",
+  "loader": "forge:obj",
   "flip_v": true,
   "model": "createslugma:models/block/slugma_burner/model.obj",
   "textures": {

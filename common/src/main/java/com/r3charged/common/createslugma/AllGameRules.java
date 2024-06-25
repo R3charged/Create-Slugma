@@ -12,5 +12,5 @@ public class AllGameRules {
     public static void init() {}
 
     public static final GameRules.Key<GameRules.BooleanValue> allowWildSlugmaCaging =
-            CreateSlugmaImplementation.instance.registerGameRule("allowWildSlugmaCaging", GameRules.Category.MOBS, BooleanValue.create(false));
+            GameRules.register("allowWildSlugmaCaging", GameRules.Category.MOBS, BooleanValue.create(false));
 }

@@ -32,16 +32,11 @@ public class CreateSlugmaForge extends CreateSlugmaImplementation {
         IEventBus modEventBus = FMLJavaModLoadingContext.get()
                 .getModEventBus();
         IEventBus forgeEventBus = MinecraftForge.EVENT_BUS;
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> CreateSlugmaClient.onInitializeClient());
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> CreateSlugmaClient::onInitializeClient);
 
         REGISTRATE.registerEventListeners(modEventBus);
         //MinecraftForge.EVENT_BUS.register(this);
         initialize();
 
-    }
-
-    @Override
-    public GameRules.Key registerGameRule(String name, GameRules.Category category, GameRules.Type type) {
-        return GameRules.register(name, category, type);
     }
 }

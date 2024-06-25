@@ -21,9 +21,4 @@ public class CreateSlugmaFabric extends CreateSlugmaImplementation implements Mo
         REGISTRATE.register();
     }
 
-
-    @Override
-    public GameRules.Key registerGameRule(String name, GameRules.Category category, GameRules.Type type) {
-        return GameRuleRegistry.register(name, category, type);
-    }
 }
