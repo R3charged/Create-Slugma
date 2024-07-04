@@ -17,7 +17,7 @@ public class CreateSlugmaFabric extends CreateSlugmaImplementation implements Mo
         LOGGER.info("Create addon mod [{}] is loading alongside Create [{}]!", "CobblemonSlugma", Create.VERSION);
         initialize();
         //CommandRegistrationCallback.EVENT.register(ExampleCommandRegistry::registerCommands);
-
+        AllArmInteractionsFabric.register();
         REGISTRATE.register();
     }
 

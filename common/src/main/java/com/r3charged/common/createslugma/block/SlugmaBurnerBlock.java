@@ -2,11 +2,11 @@ package com.r3charged.common.createslugma.block;
 
 import com.r3charged.common.createslugma.AllBlockEntities;
 import com.r3charged.common.createslugma.AllBlocks;
+import com.r3charged.common.createslugma.block.entity.SlugmaBurnerBlockEntity;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 
-import com.simibubi.create.content.processing.burner.BlazeBurnerBlockEntity;
-
+import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -33,7 +33,7 @@ public class SlugmaBurnerBlock extends BlazeBurnerBlock {
         registerDefaultState(defaultBlockState().setValue(HEAT_LEVEL, HeatLevel.SMOULDERING));
     }
     @Override
-    public BlockEntityType<? extends BlazeBurnerBlockEntity> getBlockEntityType() {
+    public BlockEntityType<? extends SlugmaBurnerBlockEntity> getBlockEntityType() {
         return AllBlockEntities.BURNER.get();
     }
     @Override

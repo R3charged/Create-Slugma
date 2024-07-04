@@ -1,6 +1,7 @@
 package com.r3charged.common.createslugma;
 
 import com.simibubi.create.foundation.data.CreateRegistrate;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.GameRules;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,5 +21,7 @@ public abstract class CreateSlugmaImplementation {
         AllGameRules.init();
 
     }
-
+    public static ResourceLocation asResource(String path) {
+        return new ResourceLocation(MOD_ID, path);
+    }
 }
