@@ -35,12 +35,12 @@ import net.minecraft.world.phys.Vec3;
 public class SlugmaBurnerBlockEntity extends BlazeBurnerBlockEntity {
 
     public PoseableEntityState<PokemonEntity> pokemonState;
-    public float oldXBodyRot;
-    public float xBodyRot;
+
     protected LerpedFloat bodyAnimation;
     protected LerpedFloat bodyAngle;
 
     private Pokemon pokemon;
+
     public SlugmaBurnerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
         pokemon = NBTHelper.getDefaultSlugma();

@@ -62,7 +62,8 @@ tasks.processResources {
                 "license" to project.property("license"),
                 "mod_icon" to project.property("mod_icon"),
                 "environment" to project.property("environment"),
-                "supported_minecraft_versions" to project.property("supported_minecraft_versions")
+                "supported_minecraft_versions" to project.property("supported_minecraft_versions"),
+                "create_forge_version" to project.property("create_forge_version")
             )
         )
     }
