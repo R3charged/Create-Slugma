@@ -93,7 +93,9 @@ class CobblemonUtils {
             partialTicks: Float,
             packedLight: Int
         ) {
-
+            if (state != null) {
+                state.updatePartialTicks(partialTicks)
+            }
             val k = Mth.wrapDegrees(bodyYaw - headYaw)
 
             val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
@@ -117,7 +119,7 @@ class CobblemonUtils {
 
                 model.getPose(pose)?.let { state.setPose(it.poseName) }
                 state.timeEnteredPose = 0F
-                state.updatePartialTicks(partialTicks)
+
                 model.setupAnimStateful(
                     entity = null,
                     state = state,

@@ -43,13 +43,18 @@ public class BlazeBurnerBlockItemMixin {
 
             Level world = player.level();
             if (world instanceof ServerLevel server) {
-                if (!server.getGameRules().getBoolean(AllGameRules.allowWildSlugmaCaging)) {
-                    if (pokemon.getOwnerUUID() == null || !pokemon.getOwnerUUID().equals(player.getUUID()) || pokemon.isBattling()) { //TODO allowWildCaging allows caging other trainer's
+                if (server.getGameRules().getBoolean(AllGameRules.allowWildSlugmaCaging)) {
+                    if (pokemon.getOwnerUUID() != null || !pokemon.getOwnerUUID().equals(player.getUUID()) || pokemon.isBattling()) { //TODO allowWildCaging allows caging other trainer's
                         spawnErrorEffects(player.level(), entity.position());
                         cir.setReturnValue(InteractionResult.PASS);
                         return;
                     }
+                } else if (pokemon.getOwnerUUID() == null || !pokemon.getOwnerUUID().equals(player.getUUID()) || pokemon.isBattling()) { //TODO allowWildCaging allows caging other trainer's
+                    spawnErrorEffects(player.level(), entity.position());
+                    cir.setReturnValue(InteractionResult.PASS);
+                    return;
                 }
+
             }
 
 

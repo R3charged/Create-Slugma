@@ -7,6 +7,7 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.r3charged.common.createslugma.CobblemonUtils;
+import com.r3charged.common.createslugma.CreateSlugmaImplementation;
 import com.r3charged.common.createslugma.util.NBTHelper;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 
@@ -62,7 +63,6 @@ public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBl
         float horizontalAngle = AngleHelper.rad(be.getHeadAngle().getValue(partialTicks));
         boolean canDrawFlame = heatLevel.isAtLeast(HeatLevel.FADING);
         int hashCode = be.hashCode();
-
 
         renderShared(ms, null, bufferSource,
                 level, blockState, heatLevel, animation, horizontalAngle,
@@ -125,10 +125,6 @@ public class SlugmaBurnerRenderer extends SafeBlockEntityRenderer<SlugmaBurnerBl
                 AngleHelper.deg(horizontalAngle),headPitch, bodyAngle,
                 0,-.1f, .2f,
                 partialTicks, LightTexture.FULL_BRIGHT);
-
-
-
-
 
         VertexConsumer solid = bufferSource.getBuffer(RenderType.solid());
         VertexConsumer cutout = bufferSource.getBuffer(RenderType.cutoutMipped());
