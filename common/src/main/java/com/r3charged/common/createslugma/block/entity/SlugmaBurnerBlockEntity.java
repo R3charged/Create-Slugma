@@ -1,11 +1,11 @@
-package com.r3charged.fabric.createslugma;
+package com.r3charged.common.createslugma.block.entity;
 
 
-import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
 import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState;
-import com.cobblemon.mod.common.client.render.models.blockbench.pokemon.PokemonFloatingState;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.r3charged.common.createslugma.BlockPokemonState;
+import com.r3charged.common.createslugma.util.NBTHelper;
 import com.simibubi.create.AllTags;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlockEntity;
@@ -15,8 +15,6 @@ import com.simibubi.create.foundation.utility.VecHelper;
 import com.simibubi.create.foundation.utility.animation.LerpedFloat;
 
 import io.github.fabricators_of_create.porting_lib.transfer.callbacks.TransactionCallback;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.client.Minecraft;
@@ -37,14 +35,15 @@ import net.minecraft.world.phys.Vec3;
 public class SlugmaBurnerBlockEntity extends BlazeBurnerBlockEntity {
 
     public PoseableEntityState<PokemonEntity> pokemonState;
-    public float oldXBodyRot;
-    public float xBodyRot;
+
     protected LerpedFloat bodyAnimation;
     protected LerpedFloat bodyAngle;
 
-    protected Pokemon pokemon;
+    private Pokemon pokemon;
+
     public SlugmaBurnerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
+        pokemon = NBTHelper.getDefaultSlugma();
         pokemonState = new BlockPokemonState();
         bodyAnimation = LerpedFloat.linear();
         bodyAngle = LerpedFloat.angular();
@@ -98,8 +97,7 @@ public class SlugmaBurnerBlockEntity extends BlazeBurnerBlockEntity {
     public void read(CompoundTag tag, boolean clientPacket) {
         try {
             pokemon = Pokemon.Companion.loadFromNBT(tag.getCompound("pokemon"));
-        } catch (NullPointerException e) {
-            pokemon = NBTHelper.getDefaultSlugma();
+        } catch (NullPointerException ignored) {
         }
         super.read(tag, clientPacket);
     }
@@ -113,7 +111,7 @@ public class SlugmaBurnerBlockEntity extends BlazeBurnerBlockEntity {
 
 
     public Pokemon getPokemon() {
-        return pokemon == null ? NBTHelper.getDefaultSlugma() : pokemon;
+        return pokemon;
     }
 
 

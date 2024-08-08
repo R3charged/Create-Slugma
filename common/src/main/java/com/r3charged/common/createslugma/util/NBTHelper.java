@@ -1,4 +1,4 @@
-package com.r3charged.fabric.createslugma;
+package com.r3charged.common.createslugma.util;
 
 import com.cobblemon.mod.common.Cobblemon;
 import com.cobblemon.mod.common.api.pokemon.PokemonProperties;
@@ -6,9 +6,9 @@ import com.cobblemon.mod.common.api.storage.NoPokemonStoreException;
 import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
+import com.r3charged.common.createslugma.AllBlocks;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import static com.cobblemon.mod.common.api.scheduling.SchedulingFunctionsKt.afterOnClient;
@@ -32,7 +32,7 @@ public class NBTHelper {
 
 
     public static ItemStack getSlugmaBurnerItem(Pokemon pokemon) {
-        ItemStack filled = CreateSlugma.SLUGMA_BURNER_BLOCK.asStack();
+        ItemStack filled = AllBlocks.SLUGMA_BURNER_BLOCK.asStack();
         savePokemonWithBlockEntity(filled.getOrCreateTag(), pokemon);
 
         return filled;
@@ -52,6 +52,10 @@ public class NBTHelper {
         Pokemon pokemon = entity.getPokemon();
         entity.discard();
         ServerPlayer player = pokemon.getOwnerPlayer();
+        savePokemonWithBlockEntity(itemstack.getOrCreateTag(), pokemon);
+        if (player == null) {
+            return itemstack;
+        }
         PlayerPartyStore party = Cobblemon.INSTANCE.getStorage().getParty(player);
         if (!party.remove(pokemon)) {
             try {
@@ -59,7 +63,7 @@ public class NBTHelper {
             } catch (NoPokemonStoreException e) {
             }
         }
-        savePokemonWithBlockEntity(itemstack.getOrCreateTag(), pokemon);
+
 
         return itemstack;
     }

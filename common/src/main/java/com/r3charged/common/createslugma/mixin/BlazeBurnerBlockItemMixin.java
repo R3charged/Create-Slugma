@@ -1,19 +1,14 @@
-package com.r3charged.fabric.createslugma.mixin;
+package com.r3charged.common.createslugma.mixin;
 
-import com.cobblemon.mod.common.Cobblemon;
-import com.cobblemon.mod.common.api.storage.party.PlayerPartyStore;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
-import com.cobblemon.mod.common.pokemon.Pokemon;
-import com.r3charged.fabric.createslugma.AllGameRules;
-import com.r3charged.fabric.createslugma.CreateSlugma;
-import com.r3charged.fabric.createslugma.NBTHelper;
+import com.r3charged.common.createslugma.AllBlocks;
+import com.r3charged.common.createslugma.AllGameRules;
+import com.r3charged.common.createslugma.util.NBTHelper;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlockItem;
 import com.simibubi.create.foundation.utility.VecHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -48,13 +43,18 @@ public class BlazeBurnerBlockItemMixin {
 
             Level world = player.level();
             if (world instanceof ServerLevel server) {
-                if (!server.getGameRules().getBoolean(AllGameRules.allowWildSlugmaCaging)) {
-                    if (pokemon.getOwnerUUID() == null || !pokemon.getOwnerUUID().equals(player.getUUID()) || pokemon.isBattling()) {
+                if (server.getGameRules().getBoolean(AllGameRules.allowWildSlugmaCaging)) {
+                    if (!(pokemon.getOwnerUUID() == null || pokemon.getOwnerUUID().equals(player.getUUID())) || pokemon.isBattling()) { //TODO allowWildCaging allows caging other trainer's
                         spawnErrorEffects(player.level(), entity.position());
                         cir.setReturnValue(InteractionResult.PASS);
                         return;
                     }
+                } else if (pokemon.getOwnerUUID() == null || !pokemon.getOwnerUUID().equals(player.getUUID()) || pokemon.isBattling()) { //TODO allowWildCaging allows caging other trainer's
+                    spawnErrorEffects(player.level(), entity.position());
+                    cir.setReturnValue(InteractionResult.PASS);
+                    return;
                 }
+
             }
 
 
@@ -66,7 +66,7 @@ public class BlazeBurnerBlockItemMixin {
                 return;
             }
 
-            ItemStack filled = CreateSlugma.SLUGMA_BURNER_BLOCK.asStack();
+            ItemStack filled = AllBlocks.SLUGMA_BURNER_BLOCK.asStack();
             NBTHelper.popPokemonEntityToItemStack(filled, pokemon);
             giveSlugmaBurnerItemTo(player, heldItem, hand, filled);
 

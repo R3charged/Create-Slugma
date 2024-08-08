@@ -22,12 +22,14 @@ loom {
     enableTransitiveAccessWideners.set(true)
     silentMojangMappingsLicense()
 
-
+    forge {
+        mixinConfig("createslugma-common.mixins.json")
+    }
 }
 
 dependencies {
     minecraft("net.minecraft:minecraft:${property("minecraft_version")}")
-    mappings("net.fabricmc:yarn:${property("yarn_mappings")}:v2")
+    mappings(loom.officialMojangMappings())
 
     // Forge
     forge("net.minecraftforge:forge:${property("forge_version")}")
@@ -36,6 +38,11 @@ dependencies {
     "shadowCommon"(project(":common", "transformProductionForge")) { isTransitive = false }
 
     modImplementation("com.cobblemon:forge:${property("cobblemon_version")}")
+
+    modImplementation("com.simibubi.create:create-${property("minecraft_version")}:${property("create_forge_version")}:slim") { isTransitive = false }
+    modImplementation("com.tterrag.registrate:Registrate:${property("registrate_forge_version")}")
+    modImplementation("com.jozufozu.flywheel:flywheel-forge-${property("minecraft_version")}:${property("flywheel_forge_version")}")
+
     implementation("thedarkcolour:kotlinforforge:4.4.0")
 
 
@@ -55,7 +62,8 @@ tasks.processResources {
                 "license" to project.property("license"),
                 "mod_icon" to project.property("mod_icon"),
                 "environment" to project.property("environment"),
-                "supported_minecraft_versions" to project.property("supported_minecraft_versions")
+                "supported_minecraft_versions" to project.property("supported_minecraft_versions"),
+                "create_forge_version" to project.property("create_forge_version")
             )
         )
     }

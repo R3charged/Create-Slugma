@@ -1,25 +1,20 @@
-package com.r3charged.fabric.createslugma;
+package com.r3charged.common.createslugma.block;
 
+import com.r3charged.common.createslugma.AllBlockEntities;
+import com.r3charged.common.createslugma.AllBlocks;
+import com.r3charged.common.createslugma.block.entity.SlugmaBurnerBlockEntity;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
-
-import com.simibubi.create.content.processing.burner.BlazeBurnerBlockEntity;
 
 import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -38,8 +33,8 @@ public class SlugmaBurnerBlock extends BlazeBurnerBlock {
         registerDefaultState(defaultBlockState().setValue(HEAT_LEVEL, HeatLevel.SMOULDERING));
     }
     @Override
-    public BlockEntityType<? extends BlazeBurnerBlockEntity> getBlockEntityType() {
-        return CreateSlugma.BURNER.get();
+    public BlockEntityType<? extends SlugmaBurnerBlockEntity> getBlockEntityType() {
+        return AllBlockEntities.BURNER.get();
     }
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -61,11 +56,11 @@ public class SlugmaBurnerBlock extends BlazeBurnerBlock {
 
     public static LootTable.@NotNull Builder buildLootTable() {
         LootItemCondition.Builder survivesExplosion = ExplosionCondition.survivesExplosion();
-        SlugmaBurnerBlock block = CreateSlugma.SLUGMA_BURNER_BLOCK.get();
+        SlugmaBurnerBlock block = AllBlocks.SLUGMA_BURNER_BLOCK.get();
         LootTable.Builder builder = LootTable.lootTable();
         LootPool.Builder poolBuilder = LootPool.lootPool();
         for (HeatLevel level : HeatLevel.values()) {
-            ItemLike drop = level == HeatLevel.NONE ? AllItems.EMPTY_BLAZE_BURNER.get() : CreateSlugma.SLUGMA_BURNER_BLOCK.get();
+            ItemLike drop = level == HeatLevel.NONE ? AllItems.EMPTY_BLAZE_BURNER.get() : AllBlocks.SLUGMA_BURNER_BLOCK.get();
             poolBuilder.add(LootItem.lootTableItem(drop)
                     .when(survivesExplosion)
                     .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
