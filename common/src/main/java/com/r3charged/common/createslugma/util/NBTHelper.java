@@ -52,6 +52,10 @@ public class NBTHelper {
         Pokemon pokemon = entity.getPokemon();
         entity.discard();
         ServerPlayer player = pokemon.getOwnerPlayer();
+        savePokemonWithBlockEntity(itemstack.getOrCreateTag(), pokemon);
+        if (player == null) {
+            return itemstack;
+        }
         PlayerPartyStore party = Cobblemon.INSTANCE.getStorage().getParty(player);
         if (!party.remove(pokemon)) {
             try {
@@ -59,7 +63,7 @@ public class NBTHelper {
             } catch (NoPokemonStoreException e) {
             }
         }
-        savePokemonWithBlockEntity(itemstack.getOrCreateTag(), pokemon);
+
 
         return itemstack;
     }

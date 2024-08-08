@@ -31,7 +31,7 @@ public class SendOutPokemonHandlerMixin {
         BlockState state = player.level().getBlockState(result.getBlockPos());
         if (player.level().getBlockEntity(result.getBlockPos()) instanceof SlugmaBurnerBlockEntity slugmaBurnerBlockEntity) {
             Pokemon pokemon = slugmaBurnerBlockEntity.getPokemon();
-            if(pokemon.getOriginalTrainer().equals(player.getUUID().toString())) { // getOwner is not instantiated
+            if(player.getUUID().toString().equals(pokemon.getOriginalTrainer())) { // getOwner is not instantiated
                 Cobblemon.INSTANCE.getStorage().getParty(player).add(pokemon);
                 player.level().setBlock(result.getBlockPos(), AllBlocks.BLAZE_BURNER.getDefaultState(), 3);
                 CobblemonUtils.Companion.spawnSendOutParticles(new Vec3(result.getBlockPos().getX(),result.getBlockPos().getY(), result.getBlockPos().getZ()), new Vec3(.5,.1,.5), pokemon);
