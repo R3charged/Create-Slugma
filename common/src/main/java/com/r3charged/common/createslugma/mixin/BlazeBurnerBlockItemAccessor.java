@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(BlazeBurnerBlockItem.class)
 public interface BlazeBurnerBlockItemAccessor {
 
-    @Invoker("spawnCaptureEffects")
+    @Invoker(value = "spawnCaptureEffects", remap = true)
     void invokeSpawnCaptureEffects(Level world, Vec3 vec);
 
 }

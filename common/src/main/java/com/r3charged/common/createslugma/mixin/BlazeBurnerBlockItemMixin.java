@@ -3,6 +3,7 @@ package com.r3charged.common.createslugma.mixin;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.r3charged.common.createslugma.AllBlocks;
 import com.r3charged.common.createslugma.AllGameRules;
+import com.r3charged.common.createslugma.CreateSlugmaImplementation;
 import com.r3charged.common.createslugma.util.NBTHelper;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlockItem;
 import com.simibubi.create.foundation.utility.VecHelper;
@@ -18,22 +19,23 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(BlazeBurnerBlockItem.class)
-public class BlazeBurnerBlockItemMixin {
+@Mixin(value = BlazeBurnerBlockItem.class, remap = true)
+public abstract class BlazeBurnerBlockItemMixin {
 
     @Inject(
             method = "interactLivingEntity",
             at = @At("HEAD"),
-            cancellable = true
+            cancellable = true,
+            remap = true
     )
     private void onInteractLivingEntity(ItemStack heldItem, Player player, LivingEntity entity, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
         if (entity instanceof PokemonEntity) {
-
             PokemonEntity pokemon = (PokemonEntity) entity;
             if (!NBTHelper.isSlugma(pokemon.getPokemon())) {
                 cir.setReturnValue(InteractionResult.PASS);
@@ -56,7 +58,6 @@ public class BlazeBurnerBlockItemMixin {
                 }
 
             }
-
 
 
             pokemon.cry();
