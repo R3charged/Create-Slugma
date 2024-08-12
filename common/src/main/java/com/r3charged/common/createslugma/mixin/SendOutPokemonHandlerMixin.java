@@ -7,6 +7,7 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.cobblemon.mod.common.util.PlayerExtensionsKt;
 import com.cobblemon.mod.common.util.TraceResult;
 import com.r3charged.common.createslugma.CobblemonUtils;
+import com.r3charged.common.createslugma.CreateSlugmaImplementation;
 import com.r3charged.common.createslugma.util.NBTHelper;
 import com.r3charged.common.createslugma.block.entity.SlugmaBurnerBlockEntity;
 import com.simibubi.create.AllBlocks;
@@ -16,16 +17,17 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(SendOutPokemonHandler.class)
-public class SendOutPokemonHandlerMixin {
+@Mixin(value = SendOutPokemonHandler.class, remap = true)
+public abstract class SendOutPokemonHandlerMixin {
 
     @Inject(method = "handle(Lcom/cobblemon/mod/common/net/messages/server/SendOutPokemonPacket;Lnet/minecraft/server/MinecraftServer;Lnet/minecraft/server/level/ServerPlayer;)V",
-            at = @At(value = "HEAD"), cancellable = true)
+            at = @At(value = "HEAD"), cancellable = true, remap = true)
     private void onHandle(SendOutPokemonPacket packet, MinecraftServer server, ServerPlayer player, CallbackInfo ci) {
         TraceResult result = PlayerExtensionsKt.traceBlockCollision(player, 10f, .05f, (it) -> it.isSolid());
         BlockState state = player.level().getBlockState(result.getBlockPos());

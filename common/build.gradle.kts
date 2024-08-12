@@ -10,6 +10,9 @@ architectury {
 
 loom {
     accessWidenerPath.set(project.file("src/main/resources/createslugma.accesswidener"))
+    mixin {
+        defaultRefmapName = "${property("mod_id")}.refmap.json"
+    }
 }
 
 dependencies {
@@ -28,6 +31,5 @@ sourceSets.main {
     resources { // include generated resources in resources
         srcDir("src/generated/resources")
         exclude(".cache/**")
-        exclude("assets/create/**")
     }
 }
