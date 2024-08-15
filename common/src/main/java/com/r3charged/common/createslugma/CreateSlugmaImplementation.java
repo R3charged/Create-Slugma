@@ -11,15 +11,16 @@ public abstract class CreateSlugmaImplementation {
     public static CreateSlugmaImplementation instance;
     public static final String MOD_ID = "createslugma";
     public static final CreateRegistrate REGISTRATE = CreateRegistrate.create(MOD_ID);
+    public NetworkManager networkManager;
 
     public static final Logger LOGGER = LogManager.getLogger("CreateSlugma");
+
 
 
     public void initialize() {
         AllBlocks.register();
         AllBlockEntities.register();
         AllGameRules.init();
-
     }
     public static ResourceLocation asResource(String path) {
         return new ResourceLocation(MOD_ID, path);
