@@ -27,7 +27,8 @@ class CobblemonUtils {
     companion object {
 
 
-        fun spawnSendOutParticles(sendOutPosition: Vec3, sendOutOffset: Vec3, pokemon: Pokemon) {
+        fun spawnSendOutParticles(sendOutPosition: Vec3, sendOutOffset: Vec3, ballType : String) {
+
             val client = Minecraft.getInstance()
             val soundPos = sendOutPosition.add(sendOutOffset)
             if (client.soundManager.availableSounds.contains(CobblemonSounds.POKE_BALL_SEND_OUT.location)) {
@@ -35,7 +36,7 @@ class CobblemonUtils {
             }
             sendOutPosition?.let {
                 val newPos = it.add(sendOutOffset)
-                val ballType = pokemon.caughtBall.name.path.lowercase().replace("_", "")
+                //val ballType = pokemon.caughtBall.name.path.lowercase().replace("_", "")
                 val mode = "casual"
                 val sendflash =
                     BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/sendflash"))
@@ -155,5 +156,7 @@ class CobblemonUtils {
 
             Lighting.setupFor3DItems()
         }
+
+
     }
 }

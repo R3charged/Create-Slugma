@@ -1,5 +1,6 @@
 package com.r3charged.forge.createslugma;
 
+import com.r3charged.common.createslugma.AllNetwork;
 import com.r3charged.common.createslugma.CreateSlugmaImplementation;
 import com.simibubi.create.Create;
 import net.minecraftforge.api.distmarker.Dist;
@@ -14,6 +15,8 @@ public class CreateSlugmaForge extends CreateSlugmaImplementation {
 
     public CreateSlugmaForge() {
         instance = this;
+
+        this.networkManager = new ForgeNetworkManager();
         LOGGER.info("Create addon mod [{}] is loading alongside Create [{}]!", "CobblemonSlugma", Create.VERSION);
         IEventBus modEventBus = FMLJavaModLoadingContext.get()
                 .getModEventBus();
@@ -23,6 +26,7 @@ public class CreateSlugmaForge extends CreateSlugmaImplementation {
         REGISTRATE.registerEventListeners(modEventBus);
         //MinecraftForge.EVENT_BUS.register(this);
         initialize();
+        AllNetwork.registerClientBound();
         AllArmInteractionsForge.register();
 
     }

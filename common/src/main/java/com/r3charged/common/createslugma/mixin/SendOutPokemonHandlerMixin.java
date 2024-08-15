@@ -8,6 +8,7 @@ import com.cobblemon.mod.common.util.PlayerExtensionsKt;
 import com.cobblemon.mod.common.util.TraceResult;
 import com.r3charged.common.createslugma.CobblemonUtils;
 import com.r3charged.common.createslugma.CreateSlugmaImplementation;
+import com.r3charged.common.createslugma.net.SendOutParticlesPacket;
 import com.r3charged.common.createslugma.util.NBTHelper;
 import com.r3charged.common.createslugma.block.entity.SlugmaBurnerBlockEntity;
 import com.simibubi.create.AllBlocks;
@@ -36,7 +37,9 @@ public abstract class SendOutPokemonHandlerMixin {
             if(player.getUUID().toString().equals(pokemon.getOriginalTrainer())) { // getOwner is not instantiated
                 Cobblemon.INSTANCE.getStorage().getParty(player).add(pokemon);
                 player.level().setBlock(result.getBlockPos(), AllBlocks.BLAZE_BURNER.getDefaultState(), 3);
-                CobblemonUtils.Companion.spawnSendOutParticles(new Vec3(result.getBlockPos().getX(),result.getBlockPos().getY(), result.getBlockPos().getZ()), new Vec3(.5,.1,.5), pokemon);
+                String balltype = pokemon.getCaughtBall().getName().getPath().toLowerCase().replace("_", "");
+                CreateSlugmaImplementation.instance.networkManager.sendToTracking(player.level(), result.getBlockPos(), new SendOutParticlesPacket(
+                        new Vec3(result.getBlockPos().getX(),result.getBlockPos().getY(), result.getBlockPos().getZ()), new Vec3(.5,.1,.5), balltype));
                 ci.cancel();
             }
 
@@ -53,8 +56,9 @@ public abstract class SendOutPokemonHandlerMixin {
                     NBTHelper.savePokemon(tag, pokemon);
                     blazeBurnerBlockEntity.read(tag, false);
                     Cobblemon.INSTANCE.getStorage().getParty(player).remove(pokemon);
-                    CobblemonUtils.Companion.spawnSendOutParticles(new Vec3(result.getBlockPos().getX(),result.getBlockPos().getY(), result.getBlockPos().getZ()), new Vec3(.5,.1,.5), pokemon);
-
+                    String balltype = pokemon.getCaughtBall().getName().getPath().toLowerCase().replace("_", "");
+                    CreateSlugmaImplementation.instance.networkManager.sendToTracking(player.level(), result.getBlockPos(), new SendOutParticlesPacket(
+                            new Vec3(result.getBlockPos().getX(),result.getBlockPos().getY(), result.getBlockPos().getZ()), new Vec3(.5,.1,.5), balltype));
                     ci.cancel();
                 }
             }

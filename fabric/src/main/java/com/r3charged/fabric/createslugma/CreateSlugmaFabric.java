@@ -10,6 +10,7 @@ public class CreateSlugmaFabric extends CreateSlugmaImplementation implements Mo
 
     public CreateSlugmaFabric() {
         CreateSlugmaImplementation.instance = this;
+        super.networkManager = new FabricNetworkManager();
     }
 
     @Override
