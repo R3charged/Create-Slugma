@@ -7,22 +7,26 @@ import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.r3charged.common.createslugma.BlockPokemonState;
 import com.r3charged.common.createslugma.util.NBTHelper;
 import com.simibubi.create.AllTags;
+import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlockEntity;
 
 import com.simibubi.create.foundation.utility.AngleHelper;
+import com.simibubi.create.foundation.utility.Lang;
 import com.simibubi.create.foundation.utility.VecHelper;
 import com.simibubi.create.foundation.utility.animation.LerpedFloat;
 
 import io.github.fabricators_of_create.porting_lib.transfer.callbacks.TransactionCallback;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -32,7 +36,9 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-public class SlugmaBurnerBlockEntity extends BlazeBurnerBlockEntity {
+import java.util.List;
+
+public class SlugmaBurnerBlockEntity extends BlazeBurnerBlockEntity implements IHaveGoggleInformation {
 
     public PoseableEntityState<PokemonEntity> pokemonState;
 
@@ -231,7 +237,20 @@ public class SlugmaBurnerBlockEntity extends BlazeBurnerBlockEntity {
         return headAngle;
     }
 
+    @Override
+    public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
+        Pokemon p = getPokemon();
+        Lang.text("").add(p.getDisplayName()).forGoggles(tooltip);
+        Lang.text("Lv. ").add(Lang.text(""+p.getLevel())).style(ChatFormatting.GRAY).forGoggles(tooltip, 1);
+        /*
+        if (p.isPlayerOwned()) {
+            Lang.text("Tr: ").add(Lang.text(p.getOriginalTrainerName())).style(ChatFormatting.GRAY).forGoggles(tooltip, 1);
+        } else {
+            Lang.text("Wild").style(ChatFormatting.GRAY).forGoggles(tooltip, 1);
+        }*/
 
+        return true;
+    }
 
 
 }

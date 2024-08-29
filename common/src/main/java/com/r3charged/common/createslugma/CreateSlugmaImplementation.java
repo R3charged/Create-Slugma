@@ -1,5 +1,8 @@
 package com.r3charged.common.createslugma;
 
+import com.r3charged.common.createslugma.block.SlugmaBurnerBlock;
+import com.simibubi.create.content.fluids.tank.BoilerHeaters;
+import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.GameRules;
@@ -21,6 +24,17 @@ public abstract class CreateSlugmaImplementation {
         AllBlocks.register();
         AllBlockEntities.register();
         AllGameRules.init();
+
+    }
+
+    public void setup() {
+        BoilerHeaters.registerHeater(AllBlocks.SLUGMA_BURNER_BLOCK.get(), (level, pos, state) -> {
+            BlazeBurnerBlock.HeatLevel value = state.getValue(SlugmaBurnerBlock.HEAT_LEVEL);
+            if (value == BlazeBurnerBlock.HeatLevel.NONE) return -1;
+            if (value == BlazeBurnerBlock.HeatLevel.SEETHING) return 2;
+            if (value.isAtLeast(BlazeBurnerBlock.HeatLevel.FADING)) return 1;
+            return 0;
+        });
     }
     public static ResourceLocation asResource(String path) {
         return new ResourceLocation(MOD_ID, path);
