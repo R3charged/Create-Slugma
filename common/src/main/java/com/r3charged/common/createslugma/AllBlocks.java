@@ -16,7 +16,6 @@ import static com.simibubi.create.AllMovementBehaviours.movementBehaviour;
 import static com.simibubi.create.foundation.data.TagGen.pickaxeOnly;
 
 public class AllBlocks {
-
     public static BlockEntry<SlugmaBurnerBlock> SLUGMA_BURNER_BLOCK = REGISTRATE.block("slugma_burner", SlugmaBurnerBlock::new)
             .initialProperties(SharedProperties::softMetal)
             .properties(p -> p.mapColor(MapColor.COLOR_GRAY))
@@ -35,6 +34,6 @@ public class AllBlocks {
             .register();
 
     public static void register() {
-
+        CreateSlugmaImplementation.LOGGER.info("Registering blocks...");
     }
 }

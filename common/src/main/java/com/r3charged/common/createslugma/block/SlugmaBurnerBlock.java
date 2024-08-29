@@ -6,7 +6,6 @@ import com.r3charged.common.createslugma.block.entity.SlugmaBurnerBlockEntity;
 import com.simibubi.create.AllItems;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 
-import com.simibubi.create.foundation.block.IBE;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -28,17 +27,22 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import org.jetbrains.annotations.NotNull;
 
 public class SlugmaBurnerBlock extends BlazeBurnerBlock {
+
+
     public SlugmaBurnerBlock(Properties properties) {
         super(properties);
-        registerDefaultState(defaultBlockState().setValue(HEAT_LEVEL, HeatLevel.SMOULDERING));
+        //registerDefaultState(defaultBlockState().setValue(HEAT_LEVEL, HeatLevel.SMOULDERING));
     }
-    @Override
-    public BlockEntityType<? extends SlugmaBurnerBlockEntity> getBlockEntityType() {
-        return AllBlockEntities.BURNER.get();
-    }
+
+
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return getStateForPlacement(context.getPlayer());
+    }
+
+    @Override
+    public BlockEntityType<? extends SlugmaBurnerBlockEntity> getBlockEntityType() {
+        return AllBlockEntities.BURNER.get();
     }
 
     public BlockState getStateForPlacement(Player player) {
