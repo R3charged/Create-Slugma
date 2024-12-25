@@ -1,4 +1,9 @@
-# Create Slugma
+<h1 align="center">Create-Slugma<br>
+	<a href="https://www.curseforge.com/minecraft/mc-mods/create-slugma"><img src="https://cf.way2muchnoise.eu/1081583.svg" alt="CF"></a>
+    <a href="https://modrinth.com/mod/create-slugma"><img src="https://img.shields.io/modrinth/dt/create-slugma?logo=modrinth&label=&suffix=%20&style=flat&color=242629&labelColor=5ca424&logoColor=1c1c1c" alt="Modrinth"></a>
+    <br><br>
+</h1>
+
 [![Overview Video](https://img.youtube.com/vi/F7NfV3F63kc/0.jpg)](https://www.youtube.com/watch?v=F7NfV3F63kc)
 
 ### About
