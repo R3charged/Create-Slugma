@@ -31,6 +31,13 @@ public abstract class SendOutPokemonHandlerMixin {
             at = @At(value = "HEAD"), cancellable = true, remap = true)
     private void onHandle(SendOutPokemonPacket packet, MinecraftServer server, ServerPlayer player, CallbackInfo ci) {
         TraceResult result = PlayerExtensionsKt.traceBlockCollision(player, 10f, .05f, (it) -> it.isSolid());
+
+        // The API from PlayerExtensionsKt isn't null-safe and returns a null when a HIT can't be found.
+        // Fixes: Issue #16
+        if (result == null) {
+          return;
+        }
+
         BlockState state = player.level().getBlockState(result.getBlockPos());
         if (player.level().getBlockEntity(result.getBlockPos()) instanceof SlugmaBurnerBlockEntity slugmaBurnerBlockEntity) {
             Pokemon pokemon = slugmaBurnerBlockEntity.getPokemon();
