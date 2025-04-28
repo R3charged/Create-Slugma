@@ -9,4 +9,11 @@ pluginManagement {
     }
 }
 
-include("common", "fabric", "forge")
+val enableFabric = providers.gradleProperty("enableFabric").forUseAtConfigurationTime().orNull == "true"
+
+include(":common")
+include(":neoforge")
+
+if (enableFabric) {
+    include(":fabric")
+}

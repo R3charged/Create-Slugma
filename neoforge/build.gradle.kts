@@ -6,7 +6,7 @@ plugins {
 
 architectury {
     platformSetupLoomIde()
-    forge()
+    neoForge()
 }
 
 configurations {
@@ -28,11 +28,11 @@ loom {
 }
 
 dependencies {
-    minecraft("net.minecraft:minecraft:${property("minecraft_version")}")
+    minecraft("net.minecraft:minecraft:${property("base_minecraft_version")}")
     mappings(loom.officialMojangMappings())
 
     // Forge
-    forge("net.minecraftforge:forge:${property("forge_version")}")
+    neoForge("net.neoforged:neoforge:${property("neo_version")}")
 
     "common"(project(":common", "namedElements")) { isTransitive = false }
     "shadowCommon"(project(":common", "transformProductionForge")) { isTransitive = false }
@@ -41,6 +41,7 @@ dependencies {
 
     modImplementation("com.simibubi.create:create-${property("minecraft_version")}:${property("create_forge_version")}:slim") { isTransitive = false }
     modImplementation("com.tterrag.registrate:Registrate:${property("registrate_forge_version")}")
+    implementation("net.createmod.ponder:Ponder-Forge-${property("minecraft_version")}:${property("ponder_version")}")
     modImplementation("com.jozufozu.flywheel:flywheel-forge-${property("minecraft_version")}:${property("flywheel_forge_version")}")
 
     implementation("thedarkcolour:kotlinforforge:4.4.0")

@@ -40,11 +40,11 @@ loom {
 }
 
 dependencies {
-    minecraft("net.minecraft:minecraft:${property("minecraft_version")}")
+    minecraft("net.minecraft:minecraft:${property("base_minecraft_version")}")
     mappings(loom.officialMojangMappings())
 
     modImplementation("com.cobblemon:fabric:${property("cobblemon_version")}")
-    modImplementation("com.simibubi.create:create-fabric-${property("minecraft_version")}:${property("create_fabric_version")}")
+    modImplementation("com.simibubi.create:create-fabric-${property("base_minecraft_version")}:${property("create_fabric_version")}")
     modRuntimeOnly("com.terraformersmc:modmenu:7.2.2")
     modImplementation("net.fabricmc:fabric-loader:${property("fabric_loader_version")}")
     modApi("net.fabricmc.fabric-api:fabric-api:${property("fabric_version")}")
