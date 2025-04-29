@@ -1,10 +1,10 @@
 package com.r3charged.common.createslugma
 
 import com.cobblemon.mod.common.api.scheduling.SchedulingTracker
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 
-class BlockPokemonState(startAge: Int = -1, startPartialTicks: Float = 0F) : PoseableEntityState<PokemonEntity>() {
+class BlockPokemonState(startAge: Int = -1, startPartialTicks: Float = 0F) : PosableState() {
     // Could use FloatingPokemonState but updatePartialTicks seems to be called twice per frame somehow
     // renderSafe probably being called twice somewhere
 

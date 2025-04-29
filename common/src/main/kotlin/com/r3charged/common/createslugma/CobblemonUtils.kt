@@ -2,10 +2,10 @@ package com.r3charged.common.createslugma
 
 import com.cobblemon.mod.common.CobblemonSounds
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
-import com.cobblemon.mod.common.client.particle.BedrockParticleEffectRepository
+import com.cobblemon.mod.common.client.particle.BedrockParticleOptionsRepository
 import com.cobblemon.mod.common.client.particle.ParticleStorm
 import com.cobblemon.mod.common.client.render.MatrixWrapper
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.PokemonModelRepository
 import com.cobblemon.mod.common.client.render.models.blockbench.repository.RenderContext
 import com.cobblemon.mod.common.entity.PoseType
@@ -39,7 +39,7 @@ class CobblemonUtils {
                 //val ballType = pokemon.caughtBall.name.path.lowercase().replace("_", "")
                 val mode = "casual"
                 val sendflash =
-                    BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/sendflash"))
+                    BedrockParticleOptionsRepository.getEffect(cobblemonResource("${ballType}/${mode}/sendflash"))
                 sendflash?.let { effect ->
                     val wrapper = MatrixWrapper()
                     val matrix = PoseStack();
@@ -49,9 +49,9 @@ class CobblemonUtils {
                     val world = Minecraft.getInstance().level ?: return@let
                     ParticleStorm(effect, wrapper, world).spawn()
                     val ballsparks =
-                        BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsparks"))
+                        BedrockParticleOptionsRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsparks"))
                     val ballsendsparkle =
-                        BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsendsparkle"))
+                        BedrockParticleOptionsRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsendsparkle"))
                     afterOnClient(seconds = 0.01667f) {
                         ballsparks?.let { effect ->
                             ParticleStorm(effect, wrapper, world).spawn()
@@ -61,7 +61,7 @@ class CobblemonUtils {
                         }
                         afterOnClient(seconds = 0.4f){
                             val ballsparkle =
-                                BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/ballsparkle"))
+                                BedrockParticleOptionsRepository.getEffect(cobblemonResource("${ballType}/ballsparkle"))
                             ballsparkle?.let { effect ->
                                 ParticleStorm(effect, wrapper, world).spawn()
                             }
@@ -84,7 +84,7 @@ class CobblemonUtils {
             aspects: Set<String>,
             pose: String,
             matrixStack: PoseStack,
-            state: PoseableEntityState<PokemonEntity>? = null,
+            state: PosableState? = null,
             headYaw: Float,
             headPitch: Float,
             bodyYaw: Float,
