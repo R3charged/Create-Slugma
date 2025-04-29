@@ -39,7 +39,8 @@ dependencies {
     modImplementation("com.simibubi.create:create-${property("base_minecraft_version")}:${property("create_neo_version")}:slim") { isTransitive = false }
     modImplementation("net.createmod.ponder:Ponder-NeoForge-${property("base_minecraft_version")}:${property("ponder_neo_version")}")
     modImplementation("com.tterrag.registrate:Registrate:${property("registrate_neo_version")}")
-    modImplementation("dev.engine-room.flywheel:flywheel-neoforge-${property("base_minecraft_version")}:${property("flywheel_neo_version")}")
+    compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${property("base_minecraft_version")}:${property("flywheel_neo_version")}")
+    runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${property("base_minecraft_version")}:${property("flywheel_neo_version")}")
 
     implementation("thedarkcolour:kotlinforforge:4.4.0")
 

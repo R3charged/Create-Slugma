@@ -1,24 +1,20 @@
 package com.r3charged.common.createslugma.block.entity;
 
 
-import com.cobblemon.mod.common.client.render.models.blockbench.PoseableEntityState;
+import com.cobblemon.mod.common.client.render.models.blockbench.PosableState;
 import com.cobblemon.mod.common.entity.pokemon.PokemonEntity;
 import com.cobblemon.mod.common.pokemon.Pokemon;
 import com.r3charged.common.createslugma.BlockPokemonState;
 import com.r3charged.common.createslugma.util.NBTHelper;
 import com.simibubi.create.AllTags;
-import com.simibubi.create.content.equipment.goggles.IHaveGoggleInformation;
+import com.simibubi.create.api.equipment.goggles.IHaveGoggleInformation;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 import com.simibubi.create.content.processing.burner.BlazeBurnerBlockEntity;
 
-import com.simibubi.create.foundation.utility.AngleHelper;
-import com.simibubi.create.foundation.utility.Lang;
-import com.simibubi.create.foundation.utility.VecHelper;
-import com.simibubi.create.foundation.utility.animation.LerpedFloat;
 
-import io.github.fabricators_of_create.porting_lib.transfer.callbacks.TransactionCallback;
-import net.fabricmc.fabric.api.registry.FuelRegistry;
-import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.createmod.catnip.animation.LerpedFloat;
+import net.createmod.catnip.math.AngleHelper;
+import net.createmod.catnip.math.VecHelper;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
@@ -40,7 +36,7 @@ import java.util.List;
 
 public class SlugmaBurnerBlockEntity extends BlazeBurnerBlockEntity implements IHaveGoggleInformation {
 
-    public PoseableEntityState<PokemonEntity> pokemonState;
+    public PosableState pokemonState;
 
     protected LerpedFloat bodyAnimation;
     protected LerpedFloat bodyAngle;
@@ -128,69 +124,6 @@ public class SlugmaBurnerBlockEntity extends BlazeBurnerBlockEntity implements I
         return (int) (burnTime * percentage);
     }
 
-    @Override
-    protected boolean tryUpdateFuel(ItemStack itemStack, boolean forceOverflow, TransactionContext ctx) {
-        if (isCreative)
-            return false;
-
-        FuelType newFuel = FuelType.NONE;
-        int newBurnTime;
-
-        if (AllTags.AllItemTags.BLAZE_BURNER_FUEL_SPECIAL.matches(itemStack)) {
-            newBurnTime = 3200;
-            newFuel = FuelType.SPECIAL;
-        } else {
-            Integer fuel = FuelRegistry.INSTANCE.get(itemStack.getItem());
-            newBurnTime = fuel == null ? 0 : fuel;
-            if (newBurnTime > 0) {
-                newFuel = FuelType.NORMAL;
-            } else if (AllTags.AllItemTags.BLAZE_BURNER_FUEL_REGULAR.matches(itemStack)) {
-                newBurnTime = 1600; // Same as coal
-                newFuel = FuelType.NORMAL;
-            }
-        }
-
-        newBurnTime += getMultipliedBurnTime(newBurnTime);
-
-        if (newFuel == FuelType.NONE)
-            return false;
-        if (newFuel.ordinal() < activeFuel.ordinal())
-            return false;
-
-        if (newFuel == activeFuel) {
-            if (remainingBurnTime <= INSERTION_THRESHOLD) {
-                newBurnTime += remainingBurnTime;
-            } else if (forceOverflow && newFuel == FuelType.NORMAL) {
-                if (remainingBurnTime < MAX_HEAT_CAPACITY) {
-                    newBurnTime = Math.min(remainingBurnTime + newBurnTime, MAX_HEAT_CAPACITY);
-                } else {
-                    newBurnTime = remainingBurnTime;
-                }
-            } else {
-                return false;
-            }
-        }
-
-        FuelType finalNewFuel = newFuel;
-        int finalNewBurnTime = newBurnTime;
-        TransactionCallback.onSuccess(ctx, () -> {
-            activeFuel = finalNewFuel;
-            remainingBurnTime = finalNewBurnTime;
-            if (level.isClientSide) {
-                spawnParticleBurst(activeFuel == FuelType.SPECIAL);
-                return;
-            }
-            BlazeBurnerBlock.HeatLevel prev = getHeatLevelFromBlock();
-            playSound();
-            updateBlockState();
-
-            if (prev != getHeatLevelFromBlock())
-                level.playSound(null, worldPosition, SoundEvents.BLAZE_AMBIENT, SoundSource.BLOCKS,
-                        .125f + level.random.nextFloat() * .125f, 1.15f - level.random.nextFloat() * .25f);
-        });
-
-        return true;
-    }
 
     protected void spawnParticles(BlazeBurnerBlock.HeatLevel heatLevel, double burstMult) {
         if (level == null)
@@ -240,8 +173,11 @@ public class SlugmaBurnerBlockEntity extends BlazeBurnerBlockEntity implements I
     @Override
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
         Pokemon p = getPokemon();
+        /*
         Lang.text("").add(p.getDisplayName()).forGoggles(tooltip);
         Lang.text("Lv. ").add(Lang.text(""+p.getLevel())).style(ChatFormatting.GRAY).forGoggles(tooltip, 1);
+
+         */
         /*
         if (p.isPlayerOwned()) {
             Lang.text("Tr: ").add(Lang.text(p.getOriginalTrainerName())).style(ChatFormatting.GRAY).forGoggles(tooltip, 1);

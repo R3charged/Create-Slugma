@@ -1,6 +1,7 @@
 package com.r3charged.common.createslugma
 
 import com.cobblemon.mod.common.CobblemonSounds
+import com.cobblemon.mod.common.api.pokemon.PokemonSpecies
 import com.cobblemon.mod.common.api.scheduling.afterOnClient
 import com.cobblemon.mod.common.client.particle.BedrockParticleOptionsRepository
 import com.cobblemon.mod.common.client.particle.ParticleStorm
@@ -13,12 +14,15 @@ import com.cobblemon.mod.common.entity.pokemon.PokemonEntity
 import com.cobblemon.mod.common.pokemon.Pokemon
 import com.cobblemon.mod.common.pokemon.Species
 import com.cobblemon.mod.common.util.cobblemonResource
+import com.cobblemon.mod.common.util.toHex
 import com.mojang.blaze3d.platform.Lighting
 import com.mojang.blaze3d.systems.RenderSystem
 import com.mojang.blaze3d.vertex.PoseStack
 import com.mojang.math.Axis
 import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.RenderType
 import net.minecraft.client.renderer.texture.OverlayTexture
+import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundSource
 import net.minecraft.util.Mth
 import net.minecraft.world.phys.Vec3
@@ -47,31 +51,39 @@ class CobblemonUtils {
                     val var10001 = matrix.last().pose()
                     wrapper.updateMatrix(var10001)
                     val world = Minecraft.getInstance().level ?: return@let
-                    ParticleStorm(effect, wrapper, world).spawn()
+                    ParticleStorm(effect, wrapper, wrapper, world).spawn()
                     val ballsparks =
                         BedrockParticleOptionsRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsparks"))
                     val ballsendsparkle =
                         BedrockParticleOptionsRepository.getEffect(cobblemonResource("${ballType}/${mode}/ballsendsparkle"))
                     afterOnClient(seconds = 0.01667f) {
                         ballsparks?.let { effect ->
-                            ParticleStorm(effect, wrapper, world).spawn()
+                            ParticleStorm(
+                                effect,
+                                wrapper,
+                                wrapper,
+                                world
+                            ).spawn()
                         }
                         ballsendsparkle?.let { effect ->
-                            ParticleStorm(effect, wrapper, world).spawn()
-                        }
-                        afterOnClient(seconds = 0.4f){
-                            val ballsparkle =
-                                BedrockParticleOptionsRepository.getEffect(cobblemonResource("${ballType}/ballsparkle"))
-                            ballsparkle?.let { effect ->
-                                ParticleStorm(effect, wrapper, world).spawn()
-                            }
+                            ParticleStorm(
+                                effect,
+                                wrapper,
+                                wrapper,
+                                world
+                            ).spawn()
                         }
                         /*
                         currentEntity.after(seconds = 0.4f) {
                             val ballsparkle =
-                                BedrockParticleEffectRepository.getEffect(cobblemonResource("${ballType}/ballsparkle"))
+                                BedrockParticleOptionsRepository.getEffect(cobblemonResource("${ballType}/ballsparkle"))
                             ballsparkle?.let { effect ->
-                                ParticleStorm(effect, wrapper, world).spawn()
+                                ParticleStorm(
+                                    effect,
+                                    wrapper,
+                                    wrapper,
+                                    world
+                                ).spawn()
                             }
                         }*/
                     }
@@ -80,11 +92,11 @@ class CobblemonUtils {
         }
 
         fun drawPokemon(
-            species: Species,
+            species: ResourceLocation,
             aspects: Set<String>,
             pose: String,
             matrixStack: PoseStack,
-            state: PosableState? = null,
+            state: PosableState,
             headYaw: Float,
             headPitch: Float,
             bodyYaw: Float,
@@ -99,39 +111,29 @@ class CobblemonUtils {
             }
             val k = Mth.wrapDegrees(bodyYaw - headYaw)
 
-            val model = PokemonModelRepository.getPoser(species.resourceIdentifier, aspects)
-            val texture = PokemonModelRepository.getTexture(species.resourceIdentifier, aspects, state?.animationSeconds ?: 0F)
+            val model = PokemonModelRepository.getPoser(species, state)
+            val texture = PokemonModelRepository.getTexture(species, state)
 
             val context = RenderContext()
-            PokemonModelRepository.getTextureNoSubstitute(species.resourceIdentifier, aspects, 0f).let { it -> context.put(
-                RenderContext.TEXTURE, it) }
-            context.put(RenderContext.SCALE, species.getForm(aspects).baseScale)
-            context.put(RenderContext.SPECIES, species.resourceIdentifier)
-            context.put(RenderContext.ASPECTS, aspects)
+            PokemonModelRepository.getTextureNoSubstitute(species, state).let { context.put(RenderContext.TEXTURE, it) }
+            val baseScale = PokemonSpecies.getByIdentifier(species)!!.getForm(state.currentAspects).baseScale
+            context.put(RenderContext.SCALE, baseScale)
+            context.put(RenderContext.SPECIES, species)
+            context.put(RenderContext.ASPECTS, state.currentAspects)
 
-            val renderType = model.renderType(texture)
+            val renderType = RenderType.entityCutout(texture)
 
             RenderSystem.applyModelViewMatrix()
 
-            if (state == null) {
-                model.setupAnimStateless(setOf(PoseType.SLEEP, PoseType.SLEEP), headPitch = headPitch, headYaw = headYaw)
-            } else {
-                val originalPose = state.currentPose
-
-                model.getPose(pose)?.let { state.setPose(it.poseName) }
-                state.timeEnteredPose = 0F
-
-                model.setupAnimStateful(
-                    entity = null,
-                    state = state,
-                    headYaw = k,
-                    headPitch = headPitch,
-                    limbSwing = 0F,
-                    limbSwingAmount = 0F,
-                    ageInTicks = state.animationSeconds * 20
-                )
-                originalPose?.let { state.setPose(it) }
-            }
+            model.applyAnimations(
+                entity = null,
+                state = state,
+                headYaw = 0F,
+                headPitch = 0F,
+                limbSwing = 0F,
+                limbSwingAmount = 0F,
+                ageInTicks = state.animationSeconds * 20
+            )
 
             matrixStack.pushPose()
 
@@ -146,8 +148,9 @@ class CobblemonUtils {
 
             val immediate = Minecraft.getInstance().renderBuffers().bufferSource()
             val buffer = immediate.getBuffer(renderType)
-            model.withLayerContext(immediate, state, PokemonModelRepository.getLayers(species.resourceIdentifier, aspects)) {
-                model.render(context, matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F)
+            val colour = toHex(1F,1F,1F,1F)
+            model.withLayerContext(immediate, state, PokemonModelRepository.getLayers(species, state)) {
+                model.render(context, matrixStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, colour)
                 immediate.endBatch()
             }
 
