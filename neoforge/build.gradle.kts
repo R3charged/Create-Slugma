@@ -14,7 +14,7 @@ configurations {
     create("shadowCommon")
     compileClasspath.get().extendsFrom(configurations["common"])
     runtimeClasspath.get().extendsFrom(configurations["common"])
-    getByName("developmentForge").extendsFrom(configurations["common"])
+    getByName("developmentNeoForge").extendsFrom(configurations["common"])
 }
 
 loom {
@@ -22,9 +22,6 @@ loom {
     enableTransitiveAccessWideners.set(true)
     silentMojangMappingsLicense()
 
-    forge {
-        mixinConfig("createslugma-common.mixins.json")
-    }
 }
 
 dependencies {
@@ -37,12 +34,12 @@ dependencies {
     "common"(project(":common", "namedElements")) { isTransitive = false }
     "shadowCommon"(project(":common", "transformProductionForge")) { isTransitive = false }
 
-    modImplementation("com.cobblemon:forge:${property("cobblemon_version")}")
+    modImplementation("com.cobblemon:neoforge:${property("cobblemon_version")}+${property("base_minecraft_version")}")
 
-    modImplementation("com.simibubi.create:create-${property("minecraft_version")}:${property("create_forge_version")}:slim") { isTransitive = false }
-    modImplementation("com.tterrag.registrate:Registrate:${property("registrate_forge_version")}")
-    implementation("net.createmod.ponder:Ponder-Forge-${property("minecraft_version")}:${property("ponder_version")}")
-    modImplementation("com.jozufozu.flywheel:flywheel-forge-${property("minecraft_version")}:${property("flywheel_forge_version")}")
+    modImplementation("com.simibubi.create:create-${property("base_minecraft_version")}:${property("create_neo_version")}:slim") { isTransitive = false }
+    modImplementation("net.createmod.ponder:Ponder-NeoForge-${property("base_minecraft_version")}:${property("ponder_neo_version")}")
+    modImplementation("com.tterrag.registrate:Registrate:${property("registrate_neo_version")}")
+    modImplementation("dev.engine-room.flywheel:flywheel-neoforge-${property("base_minecraft_version")}:${property("flywheel_neo_version")}")
 
     implementation("thedarkcolour:kotlinforforge:4.4.0")
 
@@ -64,14 +61,14 @@ tasks.processResources {
                 "mod_icon" to project.property("mod_icon"),
                 "environment" to project.property("environment"),
                 "supported_minecraft_versions" to project.property("supported_minecraft_versions"),
-                "create_forge_version" to project.property("create_forge_version")
+                "create_neo_version" to project.property("create_neo_version")
             )
         )
     }
 }
 
 tasks {
-    base.archivesName.set("${project.property("archives_base_name")}-forge")
+    base.archivesName.set("${project.property("archives_base_name")}-neoforge")
     processResources {
         inputs.property("version", project.version)
 
@@ -82,7 +79,7 @@ tasks {
 
     shadowJar {
         exclude("fabric.mod.json")
-        exclude("generations/gg/generations/core/generationscore/forge/datagen/**")
+        exclude("generations/gg/generations/core/generationscore/neoforge/datagen/**")
         configurations = listOf(project.configurations.getByName("shadowCommon"))
         archiveClassifier.set("dev-shadow")
     }

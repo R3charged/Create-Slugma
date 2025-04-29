@@ -1,7 +1,7 @@
 plugins {
     id("java")
     id("java-library")
-    kotlin("jvm") version ("1.9.0")
+    kotlin("jvm") version ("2.0.0")
 
     id("dev.architectury.loom") version ("1.7-SNAPSHOT") apply false
     id("architectury-plugin") version ("3.4-SNAPSHOT") apply false
@@ -36,6 +36,8 @@ allprojects {
                 includeGroup("com.jozufozu.flywheel")
             }
         }
+        maven(url = "https://maven.createmod.net")
+        maven("https://maven.neoforged.net/releases")
         maven {
             url = uri("${rootProject.projectDir}/deps/local/")
         }
