@@ -42,14 +42,16 @@ dependencies {
     compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${property("base_minecraft_version")}:${property("flywheel_neo_version")}")
     runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${property("base_minecraft_version")}:${property("flywheel_neo_version")}")
 
-    implementation("thedarkcolour:kotlinforforge:4.4.0")
+    implementation("thedarkcolour:kotlinforforge-neoforge:${property("kotlinforforge_version")}") {
+        exclude("net.neoforged.fancymodloader", "loader")
+    }
 
 
 
 }
 
 tasks.processResources {
-    filesMatching("META-INF/mods.toml") {
+    filesMatching("META-INF/neoforge.mods.toml") {
         expand(
             mapOf(
                 "author" to project.property("author"),
@@ -62,7 +64,11 @@ tasks.processResources {
                 "mod_icon" to project.property("mod_icon"),
                 "environment" to project.property("environment"),
                 "supported_minecraft_versions" to project.property("supported_minecraft_versions"),
-                "create_neo_version" to project.property("create_neo_version")
+                "create_neo_version" to project.property("create_neo_version"),
+                "cobblemon_version" to project.property("cobblemon_version"),
+                "minecraft_version" to project.property("base_minecraft_version"),
+                "neo_version" to project.property("neo_version"),
+                "loader_version_range" to project.property("loader_version_range")
             )
         )
     }
@@ -73,7 +79,7 @@ tasks {
     processResources {
         inputs.property("version", project.version)
 
-        filesMatching("META-INF/mods.toml") {
+        filesMatching("META-INF/neoforge.mods.toml") {
             expand(mapOf("version" to project.version))
         }
     }

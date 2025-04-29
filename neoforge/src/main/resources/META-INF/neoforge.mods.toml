@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[47,)"
+loaderVersion = "${loader_version_range}"
 license = "${license}"
 issueTrackerURL = "${repository}/issues"
 
@@ -9,31 +9,33 @@ version = "${version}"
 displayURL="${repository}"
 displayName = "${mod_name}"
 description = "${mod_description}"
+logoFile="icon.png"
+authors="R3charged"
 
 [[dependencies.${mod_id}]]
 modId = "minecraft"
-mandatory = true
-versionRange = "[1.20.1]"
+type="required"
+versionRange = "[${minecraft_version}]"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
-modId = "forge"
-mandatory = true
-versionRange = "[47,)"
+modId = "neoforge"
+type="required"
+versionRange = "[${neo_version},)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
 modId = "cobblemon"
-mandatory = true
-versionRange = "[1.4.0,)"
+type="required"
+versionRange = "[${cobblemon_version},)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
 modId = "create"
-mandatory = true
+type="required"
 versionRange = "${create_neo_version}"
 ordering = "NONE"
 side = "BOTH"

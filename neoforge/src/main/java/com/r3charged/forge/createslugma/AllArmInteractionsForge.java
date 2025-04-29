@@ -1,7 +1,6 @@
 package com.r3charged.forge.createslugma;
 
 import com.r3charged.common.createslugma.AllArmInteractions;
-import com.r3charged.common.createslugma.block.SlugmaBurnerBlock;
 import com.simibubi.create.content.kinetics.mechanicalArm.AllArmInteractionPointTypes;
 import com.simibubi.create.content.kinetics.mechanicalArm.ArmInteractionPointType;
 import net.minecraft.core.BlockPos;
@@ -24,6 +23,7 @@ public class AllArmInteractionsForge {
 
         @Override
         public ItemStack insert(ItemStack stack, boolean simulate) {
+            /*
             ItemStack input = stack.copy();
             InteractionResultHolder<ItemStack> res =
                     SlugmaBurnerBlock.tryInsert(cachedState, level, pos, input, false, false, simulate);
@@ -34,7 +34,8 @@ public class AllArmInteractionsForge {
                 if (!simulate)
                     Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), remainder);
                 return input;
-            }
+            }*/
+            return super.insert(stack, simulate);
         }
     }
 }

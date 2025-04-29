@@ -4,7 +4,6 @@ import com.r3charged.common.createslugma.AllNetwork;
 import com.r3charged.common.createslugma.CreateSlugmaImplementation;
 import com.simibubi.create.AllCreativeModeTabs;
 import com.simibubi.create.Create;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -21,7 +20,7 @@ public class CreateSlugmaForge extends CreateSlugmaImplementation {
 
     public CreateSlugmaForge() {
         instance = this;
-
+        /*
         this.networkManager = new ForgeNetworkManager();
         LOGGER.info("Create addon mod [{}] is loading alongside Create [{}]!", "CobblemonSlugma", Create.VERSION);
         IEventBus modEventBus = FMLJavaModLoadingContext.get()
@@ -36,7 +35,7 @@ public class CreateSlugmaForge extends CreateSlugmaImplementation {
         initialize();
         AllNetwork.registerClientBound();
         AllArmInteractionsForge.register();
-
+        */
     }
 
     private void fmlsetup(final FMLCommonSetupEvent event) {
