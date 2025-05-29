@@ -22,6 +22,21 @@ loom {
     enableTransitiveAccessWideners.set(true)
     silentMojangMappingsLicense()
 
+    val common = project(":common")
+
+    runs {
+        create("datagen") {
+            client()
+
+            name = "Data Generation"
+            vmArg("-Dneoforge.datagen=true")
+            vmArg("-Dneoforge.datagen.modid=createslugma")
+            vmArg("-Dneoforge.datagen.output_dir=${common.file("src/generated/resources")}")
+            vmArg("-Dporting_lib.datagen.existing_resources=${common.file("src/main/resources")}")
+
+            environmentVariable("DATAGEN", "TRUE")
+        }
+    }
 }
 
 dependencies {
@@ -73,6 +88,9 @@ tasks.processResources {
         )
     }
 }
+
+
+
 
 tasks {
     base.archivesName.set("${project.property("archives_base_name")}-neoforge")

@@ -1,6 +1,9 @@
 package com.r3charged.common.createslugma;
 
+import com.r3charged.common.createslugma.block.PokemonBurnerBlock;
 import com.simibubi.create.AllTags;
+import com.simibubi.create.api.behaviour.interaction.ConductorBlockInteractionBehavior;
+import com.simibubi.create.content.processing.burner.BlazeBurnerBlock;
 import com.simibubi.create.content.processing.burner.BlazeBurnerMovementBehaviour;
 import com.simibubi.create.foundation.data.AssetLookup;
 import com.simibubi.create.foundation.data.SharedProperties;
@@ -32,6 +35,26 @@ public class AllBlocks {
             .model(AssetLookup.customBlockItemModel("slugma_burner", "block_with_slugma"))
             .build()
             .register();*/
+
+    public static BlockEntry<PokemonBurnerBlock> SLUGMA_BURNER_BLOCK =
+            REGISTRATE.block("slugma_burner", PokemonBurnerBlock::new)
+                    .initialProperties(SharedProperties::softMetal)
+                    .properties(p -> p.mapColor(MapColor.COLOR_GRAY)
+                            .lightLevel(PokemonBurnerBlock::getLight))
+                    .transform(pickaxeOnly())
+                    .addLayer(() -> RenderType::cutoutMipped)
+                    .tag(AllTags.AllBlockTags.FAN_PROCESSING_CATALYSTS_BLASTING.tag, AllTags.AllBlockTags.FAN_PROCESSING_CATALYSTS_SMOKING.tag,
+                            AllTags.AllBlockTags.FAN_TRANSPARENT.tag, AllTags.AllBlockTags.PASSIVE_BOILER_HEATERS.tag)
+                    .loot((lt, block) -> lt.add(block, BlazeBurnerBlock.buildLootTable()))
+                    .blockstate((c, p) -> p.simpleBlock(c.getEntry(), AssetLookup.partialBaseModel(c, p)))
+                    .onRegister(movementBehaviour(new BlazeBurnerMovementBehaviour()))
+                    .onRegister(interactionBehaviour(new ConductorBlockInteractionBehavior.BlazeBurner()))
+                    .lang("Slugma Burner")
+                    .item()
+                    .model(AssetLookup.customBlockItemModel("slugma_burner", "block_with_slugma"))
+                    .build()
+                    .register();
+
 
     public static void register() {
         CreateSlugmaImplementation.LOGGER.info("Registering blocks...");

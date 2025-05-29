@@ -6,12 +6,7 @@ plugins {
 val enableFabric = (findProperty("enableFabric") as? String)?.toBoolean() ?: false
 
 architectury {
-    if (enableFabric) {
-        common("neoforge", "fabric")
-    } else {
-        common("neoforge")
-    }
-
+    common("${property("enabled_platforms")}".split(","))
     platformSetupLoomIde()
 }
 
@@ -25,6 +20,10 @@ loom {
 dependencies {
     minecraft("com.mojang:minecraft:${property("base_minecraft_version")}")
     mappings(loom.officialMojangMappings())
+
+    modCompileOnly("net.neoforged:neoforge:${property("neo_version")}")
+    compileOnly("javax.annotation:javax.annotation-api:1.3.2")
+    compileOnly("com.google.code.findbugs:jsr305:3.0.2")
     modCompileOnly("com.cobblemon:mod:${property("cobblemon_version")}+${property("base_minecraft_version")}")
     modCompileOnly("com.simibubi.create:create-${property("base_minecraft_version")}:${property("create_neo_version")}:slim") { isTransitive = false }
     modCompileOnly("net.createmod.ponder:Ponder-NeoForge-${property("base_minecraft_version")}:${property("ponder_neo_version")}")

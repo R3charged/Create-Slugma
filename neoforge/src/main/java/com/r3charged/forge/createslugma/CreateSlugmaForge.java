@@ -4,7 +4,10 @@ import com.r3charged.common.createslugma.AllNetwork;
 import com.r3charged.common.createslugma.CreateSlugmaImplementation;
 import com.simibubi.create.AllCreativeModeTabs;
 import com.simibubi.create.Create;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 /*
@@ -12,22 +15,25 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.DistExecutor;*/
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;*/
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 
 @Mod(CreateSlugmaImplementation.MOD_ID)
 public class CreateSlugmaForge extends CreateSlugmaImplementation {
 
-    public CreateSlugmaForge() {
+    public CreateSlugmaForge(IEventBus modEventBus, ModContainer modContainer) {
         instance = this;
-        /*
-        this.networkManager = new ForgeNetworkManager();
-        LOGGER.info("Create addon mod [{}] is loading alongside Create [{}]!", "CobblemonSlugma", Create.VERSION);
-        IEventBus modEventBus = FMLJavaModLoadingContext.get()
-                .getModEventBus();
-        IEventBus forgeEventBus = MinecraftNeoForge.EVENT_BUS;
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> CreateSlugmaClient::onInitializeClient);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::fmlsetup);
+
+        //this.networkManager = new ForgeNetworkManager();
+        //LOGGER.info("Create addon mod [{}] is loading alongside Create [{}]!", "CobblemonSlugma", Create.VERSION);
+        // IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        //IEventBus forgeEventBus = MinecraftNeoForge.EVENT_BUS;
+        //DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> CreateSlugmaClient::onInitializeClient);
+        modEventBus.addListener(this::fmlsetup);
+        //REGISTRATE.registerEventListeners(modEventBus);
+
+        ModLoadingContext modLoadingContext = ModLoadingContext.get();
+
         REGISTRATE.registerEventListeners(modEventBus);
 
         REGISTRATE.setCreativeTab(AllCreativeModeTabs.BASE_CREATIVE_TAB);
@@ -35,7 +41,8 @@ public class CreateSlugmaForge extends CreateSlugmaImplementation {
         initialize();
         AllNetwork.registerClientBound();
         AllArmInteractionsForge.register();
-        */
+
+
     }
 
     private void fmlsetup(final FMLCommonSetupEvent event) {
