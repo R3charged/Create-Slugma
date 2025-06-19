@@ -42,7 +42,6 @@ public class CreateSlugmaForge extends CreateSlugmaImplementation {
         AllNetwork.registerClientBound();
         AllArmInteractionsForge.register();
 
-
     }
 
     private void fmlsetup(final FMLCommonSetupEvent event) {

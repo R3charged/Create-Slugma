@@ -24,18 +24,21 @@ loom {
 
     val common = project(":common")
 
+
     runs {
         create("datagen") {
             client()
-
             name = "Data Generation"
-            vmArg("-Dneoforge.datagen=true")
-            vmArg("-Dneoforge.datagen.modid=createslugma")
-            vmArg("-Dneoforge.datagen.output_dir=${common.file("src/generated/resources")}")
-            vmArg("-Dporting_lib.datagen.existing_resources=${common.file("src/main/resources")}")
+            runDir = "run"
 
-            environmentVariable("DATAGEN", "TRUE")
+            programArgs("--mod", "createslugma")
+            programArgs("--all")
+            programArgs("--output", file("${common.file("src/generated/resources")}").absolutePath)
+            programArgs("--existing", file("${common.file("src/main/resources")}").absolutePath)
+
+            source(sourceSets["main"])
         }
+
     }
 }
 
